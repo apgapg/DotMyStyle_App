@@ -1,37 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:salon/feed_model.dart';
-import 'package:salon/home_bloc.dart';
 import 'package:salon/pages/tab/feed_tab.dart';
 import 'package:salon/pages/tab/inspiration_tab.dart';
 import 'package:salon/pages/tab/salon_tab.dart';
-import 'package:salon/utils/dialog_utils.dart';
 
 class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Dot Ur Style",
-          style: TextStyle(color: Colors.blueGrey[700]),
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Dot Ur Style",
+            style: TextStyle(color: Colors.blueGrey[700]),
+          ),
+          elevation: 2.0,
+          backgroundColor: Colors.white,
+          bottom: TabBar(
+            labelColor: Colors.blue,
+            unselectedLabelColor: Colors.grey,
+            tabs: [
+              Tab(
+                text: "FEEDS",
+              ),
+              Tab(
+                text: "SALON",
+              ),
+              Tab(
+                text: "INSPIRE",
+              ),
+            ],
+          ),
         ),
-        elevation: 2.0,
-        backgroundColor: Colors.white,
-      ),
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: new Container(
-        child: PageView(
-          
+        backgroundColor: Theme.of(context).backgroundColor,
+        body: TabBarView(
           children: <Widget>[
             FeedTab(),
             SalonTab(),
             InspirationTab(),
-          
           ],
         ),
       ),
@@ -41,7 +52,9 @@ class _HomePageState extends State<HomePage> {
 
 class FeedCard extends StatefulWidget {
   final FeedItem feedItem;
+
   FeedCard(this.feedItem);
+
   _FeedCardState createState() => _FeedCardState();
 }
 
