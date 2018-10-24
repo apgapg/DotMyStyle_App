@@ -11,7 +11,8 @@ class SalonTab extends StatefulWidget {
   }
 }
 
-class SalonTabState extends State<SalonTab> with AutomaticKeepAliveClientMixin<SalonTab>{
+class SalonTabState extends State<SalonTab>
+    with AutomaticKeepAliveClientMixin<SalonTab> {
   SalonBloc _bloc = new SalonBloc();
 
   @override
@@ -20,68 +21,127 @@ class SalonTabState extends State<SalonTab> with AutomaticKeepAliveClientMixin<S
     _bloc.initData();
   }
 
- // TODO: implement wantKeepAlive
+  // TODO: implement wantKeepAlive
   @override
   bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: 200.0,
-            child: StreamBuilder(
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<PromotionItem>> snapshot) {
-                if (snapshot.hasData) {
-                  return PageView.builder(itemBuilder: (context,index)=>PromotionCard(snapshot.data.elementAt(index)),
-                  );
-                } else if (snapshot.hasError) { 
-                  return Center(
-                    child: Text("Some error..."),
-                  );
-                } else {
-                  return DialogUtils.showCircularProgressBar();
-                }
-              },
-              stream: _bloc.promotionList,
-            ),
+    /*return ListView(
+      shrinkWrap: true,
+      children: <Widget>[
+        Container(
+          height: 200.0,
+          child: StreamBuilder(
+            builder: (BuildContext context,
+                AsyncSnapshot<List<PromotionItem>> snapshot) {
+              if (snapshot.hasData) {
+                return PageView.builder(
+                  itemBuilder: (context, index) =>
+                      PromotionCard(snapshot.data.elementAt(index)),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text("Some error..."),
+                );
+              } else {
+                return DialogUtils.showCircularProgressBar();
+              }
+            },
+            stream: _bloc.promotionList,
           ),
-          Expanded(
-            child: StreamBuilder(
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<SalonItem>> snapshot) {
-                if (snapshot.hasData) {
-                  return GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 0.9),
-                    padding:
-                        EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
-                    itemBuilder: (context, index) {
-                      return SalonCard(snapshot.data.elementAt(index));
-                    },
-                    itemCount: snapshot.data.length,
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text("Some error..."),
-                  );
-                } else {
-                  return DialogUtils.showCircularProgressBar();
-                }
-              },
-              stream: _bloc.salonList,
-            ),
-          ),
-        ],
-      ),
+        ),
+        StreamBuilder(
+          builder: (BuildContext context,
+              AsyncSnapshot<List<SalonItem>> snapshot) {
+            if (snapshot.hasData) {
+
+
+
+              return GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, childAspectRatio: 0.9),
+                padding:
+                EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
+                itemBuilder: (context, index) {
+                  return SalonCard(snapshot.data.elementAt(index));
+                },
+                itemCount: snapshot.data.length,
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text("Some error..."),
+              );
+            } else {
+              return DialogUtils.showCircularProgressBar();
+            }
+          },
+          stream: _bloc.salonList,
+        ),
+      ],
+      scrollDirection: Axis.vertical,
+    );
+*/
+    return StreamBuilder(
+      builder: (BuildContext context, AsyncSnapshot<List<SalonItem>> snapshot) {
+        if (snapshot.hasData) {
+          return CustomScrollView(
+            slivers: <Widget>[
+              new SliverPadding(
+                padding: const EdgeInsets.all(2.0),
+                sliver: new SliverList(
+                    delegate: new SliverChildListDelegate([
+                  Container(
+                    height: 200.0,
+                    child: StreamBuilder(
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<PromotionItem>> snapshot) {
+                        if (snapshot.hasData) {
+                          return PageView.builder(
+                            itemBuilder: (context, index) =>
+                                PromotionCard(snapshot.data.elementAt(index)),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(
+                            child: Text("Some error..."),
+                          );
+                        } else {
+                          return DialogUtils.showCircularProgressBar();
+                        }
+                      },
+                      stream: _bloc.promotionList,
+                    ),
+                  )
+                ])),
+              ),
+              SliverGrid(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  return SalonCard(snapshot.data.elementAt(index));
+                }, childCount: snapshot.data.length),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, childAspectRatio: 0.9),
+              ),
+
+            ],
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text("Some error..."),
+          );
+        } else {
+          return DialogUtils.showCircularProgressBar();
+        }
+      },
+      stream: _bloc.salonList,
     );
   }
 }
 
 class SalonCard extends StatefulWidget {
   final SalonItem item;
+
   SalonCard(this.item);
+
   _SalonCardState createState() => _SalonCardState();
 }
 
@@ -143,7 +203,9 @@ class _SalonCardState extends State<SalonCard> {
 
 class PromotionCard extends StatefulWidget {
   final PromotionItem item;
+
   PromotionCard(this.item);
+
   _PromotionCardState createState() => _PromotionCardState();
 }
 
@@ -151,6 +213,7 @@ class _PromotionCardState extends State<PromotionCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 200.0,
       child: Card(
         elevation: 2.0,
         shape: RoundedRectangleBorder(
