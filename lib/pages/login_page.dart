@@ -1,9 +1,13 @@
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:salon/api_helper.dart';
+import 'package:salon/customWidget/custom_progress_indicator.dart';
+import 'package:salon/data/local/SharedPrefsHelper.dart';
 import 'package:salon/data/network/api_endpoint.dart';
 import 'package:salon/network_utils.dart';
+import 'package:salon/pages/home_page.dart';
 import 'package:salon/utils/dialog_utils.dart';
 import 'package:salon/utils/snackbar_utils.dart';
 
@@ -83,12 +87,7 @@ class LoginPageState extends State<LoginPage> {
                   new SizedBox(
                     height: 48.0,
                   ),
-                  isLoading
-                      ? Padding(
-                          padding: const EdgeInsets.only(bottom: 32.0),
-                          child: new CircularProgressIndicator(),
-                        )
-                      : (!showNumberPage ? numberPage() : otpPage()),
+                  (!showNumberPage ? numberPage() : otpPage()),
                 ],
               ),
             ),
@@ -99,23 +98,21 @@ class LoginPageState extends State<LoginPage> {
   }
 
   onRegisterButtonClick() async {
-    setState(() {
-      isLoading = true;
-    });
+    DialogUtils.showProgressBar(context, "Requesting OTP...");
+
     var number = _numberController.text;
     assert(number.length == 10);
     var response = await apiHelper.getWithoutAuth(ApiEndpoint.sendOtp + number);
     if (NetworkUtils.isReqSuccess(tag: "sendOtp", response: response)) {
+      Navigator.pop(context);
+
       _sessionId = json.decode(response.body)['Details'];
       assert(_sessionId != null && _sessionId.isNotEmpty);
       setState(() {
-        isLoading = false;
         showNumberPage = !showNumberPage;
       });
     } else {
-      setState(() {
-        isLoading = false;
-      });
+      Navigator.pop(context);
       SnackbarUtils.show(
           _scaffoldKey, "Something went wrong. Please try again");
 //_scaffoldKey.currentState.showSnackBar(snackbar)
@@ -145,17 +142,23 @@ class LoginPageState extends State<LoginPage> {
     _map.putIfAbsent("session_id", () => _sessionId);
 
     print(json.encode(_map));
-    var response = await apiHelper.postWithoutAuth(
+    http.Response response = await apiHelper.postWithoutAuth(
         ApiEndpoint.verifyOtp, json.encode(_map));
-    if (NetworkUtils.isReqSuccess(tag: "verifyOtp", response: response)) {
-      // _sessionId = json.decode(response.body)['Details'];
-      // assert(_sessionId != null && _sessionId.isNotEmpty);
-      // setState(() {
-      //   showNumberPage = !showNumberPage;
-      // });
-      //   Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => new StartPage()));
+    if (NetworkUtils.isReqSuccess(
+      tag: "verifyOtp",
+      response: response,
+    )) {
+
+      print(response.headers);
+      String token = response.headers['authorization'];
+      assert(token != null && token.isNotEmpty);
+      prefsHelper.isLogin=true;
+      prefsHelper.token = token;
       Navigator.pop(context);
       SnackbarUtils.show(_scaffoldKey, "Login Successful");
+      await Future.delayed(Duration(seconds: 1));
+      Navigator.pushReplacement(
+          context, new MaterialPageRoute(builder: (context) => new HomePage()));
     } else {
       Navigator.pop(context);
 
@@ -210,7 +213,7 @@ class LoginPageState extends State<LoginPage> {
         ),
         new FlatButton(
           disabledTextColor: Colors.grey[500],
-          textColor: Colors.grey,
+          textColor: _registerButtonEnabled ? Colors.blue : Colors.grey,
           onPressed: _registerButtonEnabled ? onRegisterButtonClick : null,
           child: new Text(
             "Register",
@@ -270,7 +273,7 @@ class LoginPageState extends State<LoginPage> {
         ),
         new FlatButton(
           disabledTextColor: Colors.grey[500],
-          textColor: Colors.grey,
+          textColor: _registerButtonEnabled ? Colors.blue : Colors.grey,
           onPressed: _otpButtonEnabled ? onOtpButtonClick : null,
           child: new Text(
             "Submit",

@@ -1,5 +1,9 @@
- class ApiEndpoint{
-   static const sendOtp="https://shielded-tor-73822.herokuapp.com/api/v1/otp/";
-      static const verifyOtp="https://shielded-tor-73822.herokuapp.com/api/v1/otp/verify";
+class ApiEndpoint {
+  static const sendOtp = "otp/";
+  static const verifyOtp = "otp/verify";
+  static const feeds = "dot/feeds";
+  static const salon = "dot/salons";
+  static const promotion = "dot/promotions";
+    static const inspiration = "dot/inspirations";
 
- }
+}

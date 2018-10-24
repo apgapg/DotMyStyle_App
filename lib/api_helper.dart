@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 ApiHelper apiHelper = new ApiHelper();
 
 class ApiHelper {
+  static const baseUrl = "https://shielded-tor-73822.herokuapp.com/api/v1/";
+
   static final ApiHelper _instance = new ApiHelper._internal();
 
   factory ApiHelper() {
@@ -15,30 +17,24 @@ class ApiHelper {
 
   ApiHelper._internal();
 
-  Future<http.Response> getData() async {
-    var response = await http.get("http://www.reweyou.in/test/tesd.php");
-    return response;
-  }
-
-  // Future<http.Response> getWithAuth(String url) async {
-  //   String auth = await getAuthToken();
-  //   var result = await http.get(url, headers: {'Authorization': auth}).then((response) {
-  //     return response;
-  //   });
-  //   return result;
-  // }
 
   Future<http.Response> getWithoutAuth(String url) async {
-    return await http.get(url);
+    return await http.get(baseUrl + url);
   }
 
-Future<http.Response> postWithoutAuth(String url,String body) async {
-    return await http.post(url,body: body);
+  Future<http.Response> postWithoutAuth(String url, String body) async {
+    Map<String, String> map = new Map();
+    map.putIfAbsent("Content-Type", () => "application/json");
+    return await http.post(baseUrl + url, body: body, headers: map);
   }
 
-  // Future<String> getAuthToken() async {
-  //   return "Bearer " + prefsHelper.token;
-  // }
+  Future<http.Response> getWithAuth({String url}) async {
+    return await http.get(baseUrl + url, headers: getAuthTokenHeader());
+  }
 
-
+  Map<String, String> getAuthTokenHeader() {
+    Map<String, String> _map = new Map();
+    _map.putIfAbsent("Authorization", () =>  prefsHelper.token);
+    return _map;
+  }
 }
