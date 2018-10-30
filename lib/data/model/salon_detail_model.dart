@@ -4,26 +4,28 @@ part 'salon_detail_model.g.dart';
 
 @JsonSerializable()
 class SalonDetailModel {
+  @JsonKey(required: true,disallowNullValue: true)
   final String id;
+  @JsonKey(required: true,disallowNullValue: true)
   final String name;
+  @JsonKey(required: true,disallowNullValue: true)
   final String address;
   final String image;
-  final List<CategoryItem> categories;
+  final List<CategoryModel> categories;
 
-  SalonDetailModel(
-      this.id, this.name, this.address, this.image, this.categories);
+  SalonDetailModel(this.id, this.name, this.address, this.image, this.categories);
 
-  factory SalonDetailModel.fromJson(Map<String, dynamic> json) =>
-      _$SalonDetailModelFromJson(json);
+  factory SalonDetailModel.fromJson(Map<String, dynamic> json) => _$SalonDetailModelFromJson(json);
 }
 
 @JsonSerializable()
-class CategoryItem {
+class CategoryModel {
+  @JsonKey(required: true, disallowNullValue: true)
   final String id;
+  @JsonKey(required: true, disallowNullValue: true)
   final String category;
 
-  CategoryItem(this.id, this.category);
+  CategoryModel(this.id, this.category);
 
-  factory CategoryItem.fromJson(Map<String, dynamic> json) =>
-      _$CategoryItemFromJson(json);
+  factory CategoryModel.fromJson(Map<String, dynamic> json) => _$CategoryModelFromJson(json);
 }

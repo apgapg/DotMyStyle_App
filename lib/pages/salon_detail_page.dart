@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:salon/bloc/salon_detail_bloc.dart';
 import 'package:salon/data/model/salon_detail_model.dart';
 import 'package:salon/data/model/salon_model.dart';
+import 'package:salon/pages/salon_service_page.dart';
 import 'package:salon/utils/dialog_utils.dart';
 
 class SalonDetailPage extends StatefulWidget {
@@ -41,8 +42,7 @@ class _SalonDetailPageState extends State<SalonDetailPage> {
         ),
       ),
       body: StreamBuilder(
-        builder:
-            (BuildContext context, AsyncSnapshot<SalonDetailModel> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<SalonDetailModel> snapshot) {
           if (snapshot.hasData) {
             return SingleChildScrollView(
               child: Container(
@@ -58,17 +58,14 @@ class _SalonDetailPageState extends State<SalonDetailPage> {
                           fit: BoxFit.fitWidth,
                           height: 200.0,
                         ),
-                        borderRadius: new BorderRadius.only(
-                            topLeft: Radius.circular(4.0),
-                            topRight: Radius.circular(4.0)),
+                        borderRadius: new BorderRadius.only(topLeft: Radius.circular(4.0), topRight: Radius.circular(4.0)),
                       ),
                       SizedBox(
                         height: 6.0,
                       ),
                       HeaderWidget("Address"),
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 4.0, horizontal: 12.0),
+                        padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
                         child: Text(
                           widget.item.address,
                           style: TextStyle(fontSize: 16.0),
@@ -115,17 +112,33 @@ class _SalonDetailPageState extends State<SalonDetailPage> {
     super.dispose();
   }
 
-  List<Widget> getCategories(SalonDetailModel data) {
-    return data.categories
-        .map((item) => Chip(
-              label: Text(
-                item.category,
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+  List<Widget> getCategories(SalonDetailModel salonDetailModel) {
+    return salonDetailModel.categories
+        .map(
+          (categoryItem) => GestureDetector(
+                child: Chip(
+                  label: Text(
+                    categoryItem.category,
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                  ),
+                  backgroundColor: Colors.pinkAccent,
+                ),
+                onTap: () {
+                  onCategoryTap(categoryItem, salonDetailModel);
+                },
               ),
-              backgroundColor: Colors.pinkAccent,
-            ))
+        )
         .toList();
+  }
+
+  void onCategoryTap(CategoryModel categoryModel, SalonDetailModel salonDetailModel) {
+    Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => new SalonServicePage(
+                  categoryModel: categoryModel,
+                  salonDetailModel: salonDetailModel,
+                )));
   }
 }
 

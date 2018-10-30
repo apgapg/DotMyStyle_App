@@ -6,4 +6,5 @@ class ApiEndpoint {
   static const promotion = "dot/promotions";
   static const inspiration = "dot/inspirations";
   static const salonDetail = "dot/salons/";
+  static const service = "dot/services/";
 }
