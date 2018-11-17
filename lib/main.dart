@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:salon/data/local/SharedPrefsHelper.dart';
-import 'package:salon/home_bloc.dart';
 import 'package:salon/pages/home_page.dart';
 import 'package:salon/pages/login_page.dart';
 
@@ -30,6 +29,9 @@ class MyApp extends StatelessWidget {
         // counter didn't reset back to zero; the application is not restarted.
         backgroundColor: Color(0xFFE6E7E8),
         primarySwatch: Colors.blue,
+        iconTheme: IconThemeData(color: Colors.blueGrey[700]),
+        primaryIconTheme: IconThemeData(color: Colors.blueGrey[700]),
+
       ),
       home: prefsHelper.isLogin ? HomePage() : LoginPage(),
     );

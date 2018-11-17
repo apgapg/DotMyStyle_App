@@ -8,43 +8,140 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  TabController _tabController;
+
+  int _currentTabIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = new TabController(vsync: this, length: 3);
+    _tabController.addListener(() {
+      setState(() {
+        _currentTabIndex = _tabController.index;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Dot Ur Style",
-            style: TextStyle(color: Colors.blueGrey[700]),
-          ),
-          elevation: 2.0,
-          backgroundColor: Colors.white,
-          bottom: TabBar(
-            labelColor: Colors.blue,
-            unselectedLabelColor: Colors.grey,
-            tabs: [
-              Tab(
-                text: "FEEDS",
-              ),
-              Tab(
-                text: "SALON",
-              ),
-              Tab(
-                text: "INSPIRE",
-              ),
-            ],
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Dot Ur Style",
+          style: TextStyle(color: Colors.blueGrey[700]),
         ),
-        backgroundColor: Theme.of(context).backgroundColor,
-        body: TabBarView(
+        elevation: 2.0,
+        backgroundColor: Colors.white,
+//          bottom: TabBar(
+//            labelColor: Colors.blue,
+//            unselectedLabelColor: Colors.grey,
+//            tabs: [
+//              Tab(
+//                text: "FEEDS",
+//              ),
+//              Tab(
+//                text: "SALON",
+//              ),
+//              Tab(
+//                text: "INSPIRE",
+//              ),
+//            ],
+//          ),
+      ),
+      backgroundColor: Theme
+          .of(context)
+          .backgroundColor,
+      drawer: Drawer(
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
           children: <Widget>[
-            FeedTab(),
-            SalonTab(),
-            InspirationTab(),
+            DrawerHeader(
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    CircleAvatar(
+                      backgroundColor: Colors.grey[100],
+                      radius: 30.0,
+                    ),
+                    SizedBox(
+                      height: 16.0,
+                    ),
+                    Text(
+                      "Ayush P Gupta",
+                      style: TextStyle(
+                          color: Colors.blueGrey[700],
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16.0),
+                    )
+                  ],
+                ),
+              ),
+              decoration: BoxDecoration(
+                color: Colors.blueGrey[200],
+              ),
+            ),
+            ListTile(
+              title: Text('Edit Profile'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('About Us'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: <Widget>[
+          FeedTab(),
+          SalonTab(),
+          InspirationTab(),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.rss_feed),
+            title: Text('Feeds'),
+          ),
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance),
+            title: Text('Salon'),
+          ),
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.collections),
+            title: Text('Inspire'),
+          ),
+        ],
+        currentIndex: _currentTabIndex,
+        onTap: (index) {
+          setState(() {
+            _tabController.index = index;
+            _currentTabIndex = index;
+          });
+        },
       ),
     );
   }
