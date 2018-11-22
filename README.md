@@ -1,6 +1,6 @@
-# salon
+# DOT.
 
-A new Flutter project.
+This is the official repo of the mobile application of DotMyStyle.
 
 ## Getting Started
 
