@@ -12,7 +12,7 @@ class InspirationBloc {
 
   void initData() async {
     try {
-      var response = await apiHelper.getWithAuth(url: ApiEndpoint.inspiration);
+      var response = await apiHelper.getWithAuth(endpoint: ApiEndpoint.inspiration);
       if (NetworkUtils.isReqSuccess(
           tag: ApiEndpoint.inspiration, response: response)) {
         var model = InspirationModel.fromJson(json.decode(response.body));

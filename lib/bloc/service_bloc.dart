@@ -15,9 +15,9 @@ class ServiceBloc extends BaseBloc {
       assert(salonId != null && salonId.isNotEmpty);
       var response;
       if (categoryId != null && categoryId.isNotEmpty)
-        response = await apiHelper.getWithAuth(url: ApiEndpoint.service + salonId + "?category=" + categoryId);
+        response = await apiHelper.getWithAuth(endpoint: ApiEndpoint.service + salonId + "?category=" + categoryId);
       else
-        response = await apiHelper.getWithAuth(url: ApiEndpoint.service + salonId);
+        response = await apiHelper.getWithAuth(endpoint: ApiEndpoint.service + salonId);
 
       if (NetworkUtils.isReqSuccess(tag: ApiEndpoint.salonDetail, response: response)) {
         //SalonDetailModel model =
@@ -34,7 +34,7 @@ class ServiceBloc extends BaseBloc {
   }
 
   @override
-  void cleanUp() {
+  void dispose() {
     serviceDetail.close();
   }
 }

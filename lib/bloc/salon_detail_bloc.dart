@@ -13,7 +13,7 @@ class SalonDetailBloc implements BaseBloc {
   void initData(String id) async {
     try {
       var response =
-          await apiHelper.getWithAuth(url: ApiEndpoint.salonDetail + id);
+          await apiHelper.getWithAuth(endpoint: ApiEndpoint.salonDetail + id);
       if (NetworkUtils.isReqSuccess(
           tag: ApiEndpoint.salonDetail, response: response)) {
         SalonDetailModel model =
@@ -28,7 +28,7 @@ class SalonDetailBloc implements BaseBloc {
   }
 
   @override
-  void cleanUp() {
+  void dispose() {
     salonDetail.close();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:salon/feed_model.dart';
+import 'package:salon/pages/product_page.dart';
 import 'package:salon/pages/tab/feed_tab.dart';
 import 'package:salon/pages/tab/inspiration_tab.dart';
 import 'package:salon/pages/tab/salon_tab.dart';
@@ -8,8 +9,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   TabController _tabController;
 
   int _currentTabIndex = 0;
@@ -57,9 +57,7 @@ class _HomePageState extends State<HomePage>
 //            ],
 //          ),
       ),
-      backgroundColor: Theme
-          .of(context)
-          .backgroundColor,
+      backgroundColor: Theme.of(context).backgroundColor,
       drawer: Drawer(
         child: ListView(
           // Important: Remove any padding from the ListView.
@@ -79,10 +77,7 @@ class _HomePageState extends State<HomePage>
                     ),
                     Text(
                       "Ayush P Gupta",
-                      style: TextStyle(
-                          color: Colors.blueGrey[700],
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16.0),
+                      style: TextStyle(color: Colors.blueGrey[700], fontWeight: FontWeight.w700, fontSize: 16.0),
                     )
                   ],
                 ),
@@ -98,6 +93,20 @@ class _HomePageState extends State<HomePage>
                 // ...
                 // Then close the drawer
                 Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Products'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => new ProductListPage(),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -162,8 +171,7 @@ class _FeedCardState extends State<FeedCard> {
       margin: EdgeInsets.symmetric(horizontal: 4.0, vertical: 1.0),
       child: Card(
         elevation: 2.0,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(4.0))),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4.0))),
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 8.0),
           child: Column(
@@ -171,8 +179,7 @@ class _FeedCardState extends State<FeedCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(
-                    left: 12.0, right: 12.0, top: 8.0, bottom: 12.0),
+                padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 8.0, bottom: 12.0),
                 child: RichText(
                   text: new TextSpan(
                     // Note: Styles for TextSpans must be explicitly defined.
@@ -183,11 +190,7 @@ class _FeedCardState extends State<FeedCard> {
                     ),
                     children: <TextSpan>[
                       new TextSpan(text: widget.feedItem.description + " "),
-                      new TextSpan(
-                          text: getTags(widget.feedItem.tags),
-                          style: new TextStyle(
-                              fontWeight: FontWeight.normal,
-                              color: Colors.blue)),
+                      new TextSpan(text: getTags(widget.feedItem.tags), style: new TextStyle(fontWeight: FontWeight.normal, color: Colors.blue)),
                     ],
                   ),
                 ),

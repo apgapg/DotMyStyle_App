@@ -75,7 +75,7 @@ class _SalonServicePageState extends State<SalonServicePage> {
 
   @override
   void dispose() {
-    _bloc.cleanUp();
+    _bloc.dispose();
     super.dispose();
   }
 

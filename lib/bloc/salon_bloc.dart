@@ -13,7 +13,7 @@ class SalonBloc {
 
   void initData() async {
     try {
-      var response = await apiHelper.getWithAuth(url: ApiEndpoint.salon);
+      var response = await apiHelper.getWithAuth(endpoint: ApiEndpoint.salon);
       if (NetworkUtils.isReqSuccess(
           tag: ApiEndpoint.salon, response: response)) {
         print(response.body);
@@ -27,7 +27,7 @@ class SalonBloc {
       print(e);
     }
      try {
-      var response = await apiHelper.getWithAuth(url: ApiEndpoint.promotion);
+      var response = await apiHelper.getWithAuth(endpoint: ApiEndpoint.promotion);
       if (NetworkUtils.isReqSuccess(
           tag: ApiEndpoint.promotion, response: response)) {
         print(response.body);

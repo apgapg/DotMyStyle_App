@@ -12,7 +12,7 @@ class HomeBloc {
 
   void initData() async {
     try {
-      var response = await apiHelper.getWithAuth(url: ApiEndpoint.feeds);
+      var response = await apiHelper.getWithAuth(endpoint: ApiEndpoint.feeds);
       if (NetworkUtils.isReqSuccess(
           tag: ApiEndpoint.feeds, response: response)) {
         print(response.body);

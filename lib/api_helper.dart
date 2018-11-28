@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:http/http.dart' as http;
 import 'package:salon/data/local/SharedPrefsHelper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 ApiHelper apiHelper = new ApiHelper();
 
@@ -17,7 +16,6 @@ class ApiHelper {
 
   ApiHelper._internal();
 
-
   Future<http.Response> getWithoutAuth(String url) async {
     return await http.get(baseUrl + url);
   }
@@ -28,13 +26,33 @@ class ApiHelper {
     return await http.post(baseUrl + url, body: body, headers: map);
   }
 
-  Future<http.Response> getWithAuth({String url}) async {
-    return await http.get(baseUrl + url, headers: getAuthTokenHeader());
+  Future<http.Response> getWithAuth({String endpoint}) async {
+    return await http.get(baseUrl + endpoint, headers: getAuthTokenHeader());
   }
 
   Map<String, String> getAuthTokenHeader() {
     Map<String, String> _map = new Map();
-    _map.putIfAbsent("Authorization", () =>  prefsHelper.token);
+    _map.putIfAbsent("Authorization", () => prefsHelper.token);
     return _map;
+  }
+
+  NetworkResponse parseResponse(http.Response response) {
+    return NetworkResponse(response);
+  }
+}
+
+class NetworkResponse {
+  http.Response response;
+  int statusCode;
+  bool isSuccess;
+  String message;
+
+  NetworkResponse(this.response) {
+    this.statusCode = response.statusCode;
+    this.message = response.body;
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      this.isSuccess = false;
+    } else
+      this.isSuccess = true;
   }
 }
