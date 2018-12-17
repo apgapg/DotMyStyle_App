@@ -48,12 +48,7 @@ class ProductCardState extends State<ProductCard> {
                       SizedBox(
                         height: 2.0,
                       ),
-                      Text(
-                        widget.item.description,
-                        style: TextStyle(color: Colors.black54, fontSize: 12.0),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+
                     ],
                   ),
                 ),

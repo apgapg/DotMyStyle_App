@@ -27,7 +27,9 @@ class SalonItem {
   final String name;
   final String address;
   final String image;
-  SalonItem(this.id,this.name,this.address,this.image);
+  @JsonKey(defaultValue: "Unisex",name: "gender_type")
+  final String genderType;
+  SalonItem(this.id,this.name,this.address,this.image,this.genderType);
 
   factory SalonItem.fromJson(Map<String, dynamic> json) => _$SalonItemFromJson(json);
 }

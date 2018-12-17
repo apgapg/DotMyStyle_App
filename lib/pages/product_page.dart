@@ -1,42 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:salon/bloc/product_list_bloc.dart';
-import 'package:salon/customWidget/product_card.dart';
 import 'package:salon/data/model/product_list_model.dart';
 import 'package:salon/utils/dialog_utils.dart';
+import 'package:salon/widget/product_card.dart';
 
-class ProductListPage extends StatefulWidget {
-  ProductListPage();
+class ProductListTab extends StatefulWidget {
+  ProductListTab();
 
-  _ProductListPageState createState() => _ProductListPageState();
+  _ProductListTabState createState() => _ProductListTabState();
 }
 
-class _ProductListPageState extends State<ProductListPage> {
-  ProductListBloc _bloc = new ProductListBloc();
+class _ProductListTabState extends State<ProductListTab> {
+  ProductListBloc _bloc;
 
   @override
   void initState() {
     super.initState();
+    _bloc = new ProductListBloc();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(
-            "DOT Products",
-            style: TextStyle(color: Colors.blueGrey[700]),
-          ),
-          iconTheme: IconThemeData(color: Colors.blueGrey[700]),
-          elevation: 2.0,
-          backgroundColor: Colors.white),
-      /*floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Colors.blue,
-        child: Icon(
-          Icons.phone,
-          color: Colors.white,
-        ),
-      ),*/
       body: StreamBuilder(
         builder: (BuildContext context, AsyncSnapshot<List<ProductItem>> snapshot) {
           if (snapshot.hasData) {

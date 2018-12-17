@@ -30,6 +30,11 @@ class ApiHelper {
     return await http.get(baseUrl + endpoint, headers: getAuthTokenHeader());
   }
 
+  Future<NetworkResponse> getWithAuth1({String endpoint}) async {
+    var _raw = await http.get(baseUrl + endpoint, headers: getAuthTokenHeader());
+    return parseResponse(_raw);
+  }
+
   Map<String, String> getAuthTokenHeader() {
     Map<String, String> _map = new Map();
     _map.putIfAbsent("Authorization", () => prefsHelper.token);
@@ -37,6 +42,9 @@ class ApiHelper {
   }
 
   NetworkResponse parseResponse(http.Response response) {
+    print("NetworkReq URL: " + response.request.url.toString());
+    print("NetworkReq STATUS: " + response.statusCode.toString());
+    print("NetworkReq BODY: " + response.body.toString());
     return NetworkResponse(response);
   }
 }

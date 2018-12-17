@@ -7,13 +7,18 @@ part of 'salon_model.dart';
 // **************************************************************************
 
 SalonItem _$SalonItemFromJson(Map<String, dynamic> json) {
-  return SalonItem(json['id'] as String, json['name'] as String,
-      json['address'] as String, json['image'] as String);
+  return SalonItem(
+      json['id'] as String,
+      json['name'] as String,
+      json['address'] as String,
+      json['image'] as String,
+      json['gender_type'] as String ?? 'Unisex');
 }
 
 Map<String, dynamic> _$SalonItemToJson(SalonItem instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'address': instance.address,
-      'image': instance.image
+      'image': instance.image,
+      'gender_type': instance.genderType
     };

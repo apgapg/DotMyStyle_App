@@ -1,11 +1,13 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:salon/bloc/salon_bloc.dart';
 import 'package:salon/data/model/promotion_model.dart';
 import 'package:salon/data/model/salon_model.dart';
 import 'package:salon/pages/salon_detail_page.dart';
 import 'package:salon/utils/dialog_utils.dart';
+import 'package:salon/widget/promotion_card.dart';
 
 class SalonTab extends StatefulWidget {
   @override
@@ -14,9 +16,8 @@ class SalonTab extends StatefulWidget {
   }
 }
 
-class SalonTabState extends State<SalonTab>
-    with AutomaticKeepAliveClientMixin<SalonTab> {
-  final _bloc = new SalonBloc();
+class SalonTabState extends State<SalonTab> {
+  SalonBloc _bloc;
   final _controller = new PageController();
   static const _kDuration = const Duration(milliseconds: 300);
 
@@ -25,12 +26,14 @@ class SalonTabState extends State<SalonTab>
   @override
   void initState() {
     super.initState();
-    _bloc.initData();
+    _bloc = new SalonBloc();
   }
 
-  // TODO: implement wantKeepAlive
   @override
-  bool get wantKeepAlive => true;
+  void dispose() {
+    _bloc.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,72 +43,63 @@ class SalonTabState extends State<SalonTab>
           return CustomScrollView(
             slivers: <Widget>[
               new SliverPadding(
-                padding: const EdgeInsets.all(2.0),
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
                 sliver: new SliverList(
                     delegate: new SliverChildListDelegate([
-                      Container(
-                        height: 200.0,
-                        child: StreamBuilder(
-                          builder: (BuildContext context,
-                              AsyncSnapshot<List<PromotionItem>> snapshot) {
-                            if (snapshot.hasData) {
-                              return Stack(
-                                children: <Widget>[
-                                  PageView.builder(
-                                    controller: _controller,
-                                    itemBuilder: (context, index) =>
-                                        PromotionCard(
-                                            snapshot.data.elementAt(index)),
-                                  ),
-                                  new Positioned(
-                                    bottom: 0.0,
-                                    left: 0.0,
-                                    right: 0.0,
-                                    child: new Container(
-                                      padding: const EdgeInsets.all(16.0),
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(colors: [
-                                            Colors.transparent,
-                                            Colors.black38
-                                          ],
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter)),
-                                      child: new Center(
-                                        child: new DotsIndicator(
-                                          controller: _controller,
-                                          itemCount: snapshot.data.length,
-                                          onPageSelected: (int page) {
-                                            _controller.animateToPage(
-                                              page,
-                                              duration: _kDuration,
-                                              curve: _kCurve,
-                                            );
-                                          },
-                                        ),
-                                      ),
+                  Container(
+                    height: 200.0,
+                    child: StreamBuilder(
+                      builder: (BuildContext context, AsyncSnapshot<List<PromotionItem>> snapshot) {
+                        if (snapshot.hasData) {
+                          return Stack(
+                            children: <Widget>[
+                              PageView.builder(
+                                controller: _controller,
+                                itemBuilder: (context, index) => PromotionCard(snapshot.data.elementAt(index)),
+                                itemCount: snapshot.data.length,
+                              ),
+                              new Positioned(
+                                bottom: 0.0,
+                                left: 0.0,
+                                right: 0.0,
+                                child: new Container(
+                                  padding: const EdgeInsets.all(16.0),
+                                  decoration: BoxDecoration(gradient: LinearGradient(colors: [Colors.transparent, Colors.black38], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+                                  child: new Center(
+                                    child: new DotsIndicator(
+                                      controller: _controller,
+                                      itemCount: snapshot.data.length,
+                                      onPageSelected: (int page) {
+                                        _controller.animateToPage(
+                                          page,
+                                          duration: _kDuration,
+                                          curve: _kCurve,
+                                        );
+                                      },
                                     ),
                                   ),
-                                ],
-                              );
-                            } else if (snapshot.hasError) {
-                              return Center(
-                                child: Text("Some error..."),
-                              );
-                            } else {
-                              return DialogUtils.showCircularProgressBar();
-                            }
-                          },
-                          stream: _bloc.promotionList,
-                        ),
-                      )
-                    ])),
+                                ),
+                              ),
+                            ],
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(
+                            child: Text("Some error..."),
+                          );
+                        } else {
+                          return DialogUtils.showCircularProgressBar();
+                        }
+                      },
+                      stream: _bloc.promotionList,
+                    ),
+                  )
+                ])),
               ),
               SliverGrid(
                 delegate: SliverChildBuilderDelegate((context, index) {
                   return SalonCard(snapshot.data.elementAt(index));
                 }, childCount: snapshot.data.length),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, childAspectRatio: 0.9),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.1),
               ),
             ],
           );
@@ -139,43 +133,55 @@ class _SalonCardState extends State<SalonCard> {
           onSalonItemTap(widget.item);
         },
         child: Card(
-          elevation: 2.0,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(4.0))),
+          margin: EdgeInsets.all(2.0),
+          elevation: 1.0,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4.0))),
           child: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Stack(
               children: <Widget>[
-                Expanded(
-                    child: Image.network(
-                      widget.item.image,
-                      fit: BoxFit.fitHeight,
-                    )),
-                // Expanded(
-                //   child: Container(color: Colors.grey[300]),
-                // ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        widget.item.name,
-                        style: TextStyle(fontWeight: FontWeight.w600),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Expanded(
+                      child: ClipRRect(
+                        borderRadius: new BorderRadius.only(
+                          topLeft: Radius.circular(4.0),
+                          topRight: Radius.circular(4.0),
+                        ),
+                        child: CachedNetworkImage(
+                          imageUrl: widget.item.image,
+                          fit: BoxFit.fitHeight,
+                        ),
                       ),
-                      SizedBox(
-                        height: 2.0,
+                    ),
+                    // Expanded(
+                    //   child: Container(color: Colors.grey[300]),
+                    // ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(
+                            widget.item.name,
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(
+                            height: 2.0,
+                          ),
+                        ],
                       ),
-                      Text(
-                        widget.item.address,
-                        style: TextStyle(color: Colors.black54, fontSize: 12.0),
-                      ),
-                    ],
-                  ),
-                ),
+                    ),
 
-                //  Image.network(widget.item.Salon_u),
+                    //  Image.network(widget.item.Salon_u),
+                  ],
+                ),
+                Positioned(
+                  right: 0.0,
+                  top: 0.0,
+                  child: GenderWidget(widget.item.genderType),
+                ),
               ],
             ),
           ),
@@ -192,47 +198,11 @@ class _SalonCardState extends State<SalonCard> {
 
   void onSalonItemTap(SalonItem item) {
     Navigator.push(
-        context, new MaterialPageRoute(
-        builder: (context) => new SalonDetailPage(item: item,)));
-  }
-}
-
-class PromotionCard extends StatefulWidget {
-  final PromotionItem item;
-
-  PromotionCard(this.item);
-
-  _PromotionCardState createState() => _PromotionCardState();
-}
-
-class _PromotionCardState extends State<PromotionCard> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 200.0,
-      child: Card(
-        elevation: 2.0,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(4.0))),
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Expanded(
-                  child: Image.network(
-                    widget.item.promotion_image,
-                    fit: BoxFit.fitWidth,
-                  )),
-              // Expanded(
-              //   child: Container(color: Colors.grey[300]),
-              // ),
-
-              //  Image.network(widget.item.Salon_u),
-            ],
-          ),
-        ),
-      ),
-    );
+        context,
+        new MaterialPageRoute(
+            builder: (context) => new SalonDetailPage(
+                  item: item,
+                )));
   }
 }
 
@@ -242,7 +212,7 @@ class DotsIndicator extends AnimatedWidget {
     this.controller,
     this.itemCount,
     this.onPageSelected,
-    this.color: Colors.white,
+    this.highlightColor: Colors.white,
   }) : super(listenable: controller);
 
   /// The PageController that this DotsIndicator is representing.
@@ -257,7 +227,8 @@ class DotsIndicator extends AnimatedWidget {
   /// The color of the dots.
   ///
   /// Defaults to `Colors.white`.
-  final Color color;
+  final Color highlightColor;
+  final Color color = Colors.white.withOpacity(0.7);
 
   // The base size of the dots
   static const double _kDotSize = 5.0;
@@ -280,7 +251,7 @@ class DotsIndicator extends AnimatedWidget {
       width: _kDotSpacing,
       child: new Center(
         child: new Material(
-          color: color,
+          color: index==controller.page?highlightColor:color,
           type: MaterialType.circle,
           child: new Container(
             width: _kDotSize * zoom,
@@ -299,6 +270,33 @@ class DotsIndicator extends AnimatedWidget {
     return new Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: new List<Widget>.generate(itemCount, _buildDot),
+    );
+  }
+}
+
+class GenderWidget extends StatelessWidget {
+  final String genderType;
+
+  GenderWidget(this.genderType);
+
+  @override
+  Widget build(BuildContext context) {
+    assert(genderType != null && genderType.isNotEmpty);
+    return Container(
+      height: 20.0,
+      padding: EdgeInsets.only(left: 6.0, right: 6.0),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(4.0),
+          topRight: Radius.circular(4.0),
+        ),
+        color: Colors.black.withOpacity(0.75),
+      ),
+      child: Text(
+        genderType.replaceAll(r'-d', "").toUpperCase(),
+        style: TextStyle(color: Colors.white.withOpacity(1.0), letterSpacing: 1.0, fontSize: 9.0, fontWeight: FontWeight.w500),
+      ),
     );
   }
 }

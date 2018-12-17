@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:salon/api_helper.dart';
-import 'package:salon/customWidget/custom_progress_indicator.dart';
 import 'package:salon/data/local/SharedPrefsHelper.dart';
 import 'package:salon/data/network/api_endpoint.dart';
 import 'package:salon/network_utils.dart';

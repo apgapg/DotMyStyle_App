@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:salon/bloc/home_bloc.dart';
 import 'package:salon/feed_model.dart';
-import 'package:salon/home_bloc.dart';
-import 'package:salon/pages/home_page.dart';
 import 'package:salon/utils/dialog_utils.dart';
+import 'package:salon/widget/feed_card.dart';
 
 class FeedTab extends StatefulWidget {
   _FeedTabState createState() => _FeedTabState();
 }
 
-class _FeedTabState extends State<FeedTab> with AutomaticKeepAliveClientMixin<FeedTab> {
-  HomeBloc homeBloc = new HomeBloc();
+class _FeedTabState extends State<FeedTab> {
+  FeedBloc _bloc;
 
   @override
   void initState() {
     super.initState();
-    homeBloc.initData();
+    _bloc = new FeedBloc();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: StreamBuilder(
-        builder:
-            (BuildContext context, AsyncSnapshot<List<FeedItem>> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<List<FeedItem>> snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
               padding: EdgeInsets.symmetric(vertical: 4.0),
@@ -39,12 +38,8 @@ class _FeedTabState extends State<FeedTab> with AutomaticKeepAliveClientMixin<Fe
             return DialogUtils.showCircularProgressBar();
           }
         },
-        stream: homeBloc.feedList,
+        stream: _bloc.feedController.stream,
       ),
     );
   }
-
-  // TODO: implement wantKeepAlive
-  @override
-  bool get wantKeepAlive => true;
 }
