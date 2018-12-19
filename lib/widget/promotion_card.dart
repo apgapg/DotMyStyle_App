@@ -14,6 +14,7 @@ class _PromotionCardState extends State<PromotionCard> {
   Widget build(BuildContext context) {
     return Container(
       height: 200.0,
+      padding: EdgeInsets.symmetric(horizontal: 4.0),
       child: Card(
         elevation: 2.0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4.0))),

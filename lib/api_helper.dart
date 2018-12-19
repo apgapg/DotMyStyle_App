@@ -6,7 +6,7 @@ import 'package:salon/data/local/SharedPrefsHelper.dart';
 ApiHelper apiHelper = new ApiHelper();
 
 class ApiHelper {
-  static const baseUrl = "https://shielded-tor-73822.herokuapp.com/api/v1/";
+  static const baseUrl = "https://dotmystyle.com/api/v1/";
 
   static final ApiHelper _instance = new ApiHelper._internal();
 
@@ -46,6 +46,10 @@ class ApiHelper {
     print("NetworkReq STATUS: " + response.statusCode.toString());
     print("NetworkReq BODY: " + response.body.toString());
     return NetworkResponse(response);
+  }
+
+  void getLocationData() {
+
   }
 }
 

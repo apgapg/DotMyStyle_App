@@ -17,23 +17,11 @@ class SalonTab extends StatefulWidget {
 }
 
 class SalonTabState extends State<SalonTab> {
-  SalonBloc _bloc;
+  SalonBloc _bloc = new SalonBloc();
   final _controller = new PageController();
   static const _kDuration = const Duration(milliseconds: 300);
 
   static const _kCurve = Curves.ease;
-
-  @override
-  void initState() {
-    super.initState();
-    _bloc = new SalonBloc();
-  }
-
-  @override
-  void dispose() {
-    _bloc.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,11 +83,14 @@ class SalonTabState extends State<SalonTab> {
                   )
                 ])),
               ),
-              SliverGrid(
-                delegate: SliverChildBuilderDelegate((context, index) {
-                  return SalonCard(snapshot.data.elementAt(index));
-                }, childCount: snapshot.data.length),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.1),
+              SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: 2.0),
+                sliver: SliverGrid(
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    return SalonCard(snapshot.data.elementAt(index));
+                  }, childCount: snapshot.data.length),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.1),
+                ),
               ),
             ],
           );
@@ -133,7 +124,7 @@ class _SalonCardState extends State<SalonCard> {
           onSalonItemTap(widget.item);
         },
         child: Card(
-          margin: EdgeInsets.all(2.0),
+          margin: EdgeInsets.all(4.0),
           elevation: 1.0,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4.0))),
           child: Container(
@@ -251,7 +242,7 @@ class DotsIndicator extends AnimatedWidget {
       width: _kDotSpacing,
       child: new Center(
         child: new Material(
-          color: index==controller.page?highlightColor:color,
+          color: index == controller.page ? highlightColor : color,
           type: MaterialType.circle,
           child: new Container(
             width: _kDotSize * zoom,

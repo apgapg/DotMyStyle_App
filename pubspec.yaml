@@ -42,6 +42,7 @@ flutter:
   uses-material-design: true
   assets:
   - assets/images/logo.jpg
+  - assets/images/logo.png
   fonts:
   - family: Nunito
     fonts:

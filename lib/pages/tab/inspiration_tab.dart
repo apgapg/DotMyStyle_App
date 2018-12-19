@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:salon/bloc/inpiration_bloc.dart';
-import 'package:salon/bloc/salon_bloc.dart';
+import 'package:salon/bloc/provider.dart';
 import 'package:salon/data/model/inspiraton_model.dart';
-import 'package:salon/data/model/promotion_model.dart';
-import 'package:salon/data/model/salon_model.dart';
 import 'package:salon/utils/dialog_utils.dart';
 
 class InspirationTab extends StatefulWidget {
@@ -13,7 +11,7 @@ class InspirationTab extends StatefulWidget {
   }
 }
 
-class InspirationTabState extends State<InspirationTab> with AutomaticKeepAliveClientMixin<InspirationTab>{
+class InspirationTabState extends State<InspirationTab> with AutomaticKeepAliveClientMixin<InspirationTab> {
   InspirationBloc _bloc = new InspirationBloc();
 
   @override
@@ -23,49 +21,53 @@ class InspirationTabState extends State<InspirationTab> with AutomaticKeepAliveC
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: StreamBuilder(
-        builder: (BuildContext context,
-            AsyncSnapshot<List<InspirationItem>> snapshot) {
-          if (snapshot.hasData) {
-            List<InspirationItem> itemList = snapshot.data;
-            List<Widget> childrenWidget = new List();
-            List<String> list =
-                snapshot.data.map((item) => item.category).toSet().toList();
-            for (int i = 0; i < list.length; i++) {
-              childrenWidget.add(SliverList(
-                delegate:
-                    SliverChildListDelegate([HeaderWidget(list.elementAt(i))]),
-              ));
-              var _list =
-                  itemList.where((item) => item.category == list.elementAt(i));
-              childrenWidget.add(SliverPadding(
-                padding: const EdgeInsets.all(4.0),
-                sliver: SliverGrid(
-                    delegate: SliverChildBuilderDelegate(
-                        (context, i) => new GridTile(
+  void dispose() {
+    _bloc.dispose();
+    super.dispose();
+  }
 
-                              child: new InspirationCard(_list.elementAt(i)),
-                            ),
-                        childCount: _list.length),
-                    gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 0.9)),
-              ));
+  @override
+  Widget build(BuildContext context) {
+    return Provider(
+      bloc: _bloc,
+      child: Container(
+        child: StreamBuilder(
+          builder: (BuildContext context, AsyncSnapshot<List<InspirationItem>> snapshot) {
+            if (snapshot.hasData) {
+              List<InspirationItem> itemList = snapshot.data;
+              List<Widget> childrenWidget = new List();
+              List<String> list = snapshot.data.map((item) => item.category).toSet().toList();
+              for (int i = 0; i < list.length; i++) {
+                childrenWidget.add(SliverList(
+                  delegate: SliverChildListDelegate([HeaderWidget(list.elementAt(i))]),
+                ));
+                var _list = itemList.where((item) => item.category == list.elementAt(i));
+                childrenWidget.add(SliverPadding(
+                  padding: const EdgeInsets.all(4.0),
+                  sliver: SliverGrid(
+                      delegate: SliverChildBuilderDelegate(
+                              (context, i) =>
+                          new GridTile(
+                            child: new InspirationCard(_list.elementAt(i)),
+                          ),
+                          childCount: _list.length),
+                      gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 0.9)),
+                ));
+              }
+              return CustomScrollView(
+                slivers: childrenWidget,
+                scrollDirection: Axis.vertical,
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text("Some error..."),
+              );
+            } else {
+              return DialogUtils.showCircularProgressBar();
             }
-            return CustomScrollView(
-              slivers: childrenWidget,
-              scrollDirection: Axis.vertical,
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text("Some error..."),
-            );
-          } else {
-            return DialogUtils.showCircularProgressBar();
-          }
-        },
-        stream: _bloc.list,
+          },
+          stream: _bloc.list,
+        ),
       ),
     );
   }
@@ -79,6 +81,7 @@ class HeaderWidget extends StatelessWidget {
   final String title;
 
   HeaderWidget(this.title);
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -86,7 +89,7 @@ class HeaderWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Text(
         title,
-        style: TextStyle(color: Colors.grey[900],fontSize: 16.0,fontWeight: FontWeight.w600),
+        style: TextStyle(color: Colors.grey[900], fontSize: 16.0, fontWeight: FontWeight.w600),
       ),
     );
   }
@@ -94,7 +97,9 @@ class HeaderWidget extends StatelessWidget {
 
 class InspirationCard extends StatefulWidget {
   final InspirationItem item;
+
   InspirationCard(this.item);
+
   _InspirationCardState createState() => _InspirationCardState();
 }
 

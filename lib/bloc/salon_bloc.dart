@@ -9,7 +9,7 @@ import 'package:salon/data/network/api_endpoint.dart';
 import 'package:salon/network_utils.dart';
 
 class SalonBloc extends BaseBloc {
-  static SalonBloc _instance = SalonBloc();
+  static SalonBloc _instance = SalonBloc._internal();
   BehaviorSubject<List<SalonItem>> salonList;
   BehaviorSubject<List<PromotionItem>> promotionList;
 
