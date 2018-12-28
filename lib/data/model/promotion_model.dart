@@ -1,12 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'promotion_model.g.dart';
 
 class PromotionModel {
-  List<PromotionItem> promotionList;
+  List<PromotionItem> list;
 
-  PromotionModel._internal(this.promotionList);
+  PromotionModel._internal(this.list);
 
   factory PromotionModel.fromJson(dynamic json) {
     return PromotionModel.fromMapList(list: json as List);

@@ -12,7 +12,8 @@ SalonItem _$SalonItemFromJson(Map<String, dynamic> json) {
       json['name'] as String,
       json['address'] as String,
       json['image'] as String,
-      json['gender_type'] as String ?? 'Unisex');
+      json['gender_type'] as String ?? 'Unisex',
+      json['location'] as String);
 }
 
 Map<String, dynamic> _$SalonItemToJson(SalonItem instance) => <String, dynamic>{
@@ -20,5 +21,6 @@ Map<String, dynamic> _$SalonItemToJson(SalonItem instance) => <String, dynamic>{
       'name': instance.name,
       'address': instance.address,
       'image': instance.image,
-      'gender_type': instance.genderType
+  'gender_type': instance.genderType,
+  'location': instance.group
     };

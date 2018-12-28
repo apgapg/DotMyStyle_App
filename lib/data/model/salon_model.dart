@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'salon_model.g.dart';
 
@@ -29,7 +28,10 @@ class SalonItem {
   final String image;
   @JsonKey(defaultValue: "Unisex",name: "gender_type")
   final String genderType;
-  SalonItem(this.id,this.name,this.address,this.image,this.genderType);
+  @JsonKey(name: "location")
+  final String group;
+
+  SalonItem(this.id, this.name, this.address, this.image, this.genderType, this.group);
 
   factory SalonItem.fromJson(Map<String, dynamic> json) => _$SalonItemFromJson(json);
 }

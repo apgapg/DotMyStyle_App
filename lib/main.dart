@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
         title: 'DotMyStyle',
         debugShowCheckedModeBanner: false,
         theme: new ThemeData(
-          backgroundColor: Color(0xFFE6E7E8),
+          //backgroundColor: Color(0xFFE6E7E8),
+          backgroundColor: Colors.white,
           primarySwatch: Colors.blue,
           fontFamily: 'Nunito',
 
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
 
         ),
         home: prefsHelper.isLogin ? HomePage() : LoginPage(),
-        //  home: AddProfileDetailPage(),
+        //   home: AreaPage(),
       ),
     );
   }

@@ -6,7 +6,7 @@ import 'package:salon/api_helper.dart';
 import 'package:salon/data/local/SharedPrefsHelper.dart';
 import 'package:salon/data/network/api_endpoint.dart';
 import 'package:salon/network_utils.dart';
-import 'package:salon/pages/home_page.dart';
+import 'package:salon/pages/area_page.dart';
 import 'package:salon/utils/dialog_utils.dart';
 import 'package:salon/utils/snackbar_utils.dart';
 
@@ -123,7 +123,7 @@ class LoginPageState extends State<LoginPage> {
       await Future.delayed(
         Duration(milliseconds: 700),
       );
-      Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => new HomePage()));
+      Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => new AreaPage()));
     } else {
       Navigator.pop(context);
 

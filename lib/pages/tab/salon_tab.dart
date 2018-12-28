@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:salon/bloc/salon_bloc.dart';
 import 'package:salon/data/model/promotion_model.dart';
 import 'package:salon/data/model/salon_model.dart';
+import 'package:salon/feed_model.dart';
 import 'package:salon/pages/salon_detail_page.dart';
 import 'package:salon/utils/dialog_utils.dart';
+import 'package:salon/widget/feed_card.dart';
 import 'package:salon/widget/promotion_card.dart';
 
 class SalonTab extends StatefulWidget {
@@ -19,6 +21,7 @@ class SalonTab extends StatefulWidget {
 class SalonTabState extends State<SalonTab> {
   SalonBloc _bloc = new SalonBloc();
   final _controller = new PageController();
+  final _feedPagecontroller = new PageController();
   static const _kDuration = const Duration(milliseconds: 300);
 
   static const _kCurve = Curves.ease;
@@ -30,6 +33,7 @@ class SalonTabState extends State<SalonTab> {
         if (snapshot.hasData) {
           return CustomScrollView(
             slivers: <Widget>[
+
               new SliverPadding(
                 padding: const EdgeInsets.symmetric(vertical: 2.0),
                 sliver: new SliverList(
@@ -80,11 +84,44 @@ class SalonTabState extends State<SalonTab> {
                       },
                       stream: _bloc.promotionList,
                     ),
-                  )
+                    padding: EdgeInsets.only(bottom: 8.0, top: 4.0),
+                    color: Colors.blueGrey[50],
+                  ),
                 ])),
               ),
+
+
+              new SliverList(
+                  delegate: new SliverChildListDelegate([
+                    Container(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            SizedBox(
+                              height: 4.0,
+                            ),
+                            Text(
+                              "NEAR SALONS",
+                              style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 16.0),
+                            ),
+                            SizedBox(
+                              height: 4.0,
+                            ),
+                            Text(
+                              "DISCOVER THE BEST SALONS NEARBY",
+                              style: TextStyle(fontWeight: FontWeight.w500, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 12.0),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ])),
+
               SliverPadding(
-                padding: EdgeInsets.symmetric(horizontal: 2.0),
+                padding: EdgeInsets.only(left: 2.0, right: 2.0, bottom: 8.0),
                 sliver: SliverGrid(
                   delegate: SliverChildBuilderDelegate((context, index) {
                     return SalonCard(snapshot.data.elementAt(index));
@@ -92,6 +129,123 @@ class SalonTabState extends State<SalonTab> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.1),
                 ),
               ),
+              new SliverList(
+                  delegate: new SliverChildListDelegate([
+                    Container(
+                      color: Colors.blueGrey[50],
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            SizedBox(
+                              height: 4.0,
+                            ),
+                            Text(
+                              "DOT BOOK",
+                              style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 16.0),
+                            ),
+                            SizedBox(
+                              height: 4.0,
+                            ),
+                            Text(
+                              "READ WHAT'S THE LATEST IN",
+                              style: TextStyle(fontWeight: FontWeight.w500, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 12.0),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 200.0,
+                      padding: EdgeInsets.only(bottom: 8.0),
+                      color: Colors.blueGrey[50],
+                      child: StreamBuilder(
+                        builder: (BuildContext context, AsyncSnapshot<List<FeedItem>> snapshot) {
+                          if (snapshot.hasData) {
+                            return ListView.builder(
+                              padding: EdgeInsets.symmetric(horizontal: 4.0),
+                              itemBuilder: (context, index) {
+                                return FeedCard(snapshot.data.elementAt(index));
+                              },
+                              itemCount: snapshot.data.length,
+                              scrollDirection: Axis.horizontal,
+                            );
+                          } else if (snapshot.hasError) {
+                            return Center(
+                              child: Text("Some error..."),
+                            );
+                          } else {
+                            return DialogUtils.showCircularProgressBar();
+                          }
+                        },
+                        stream: _bloc.feedController,
+                      ),
+                    )
+                  ])),
+
+              new SliverList(
+                  delegate: new SliverChildListDelegate([
+                    Container(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            SizedBox(
+                              height: 4.0,
+                            ),
+                            Text(
+                              "MORE SALONS",
+                              style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 16.0),
+                            ),
+                            SizedBox(
+                              height: 4.0,
+                            ),
+                            Text(
+                              "LISTING OTHER QUALITY SALONS",
+                              style: TextStyle(fontWeight: FontWeight.w500, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 12.0),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ])),
+
+              StreamBuilder(
+                builder: (BuildContext context, AsyncSnapshot<List<SalonItem>> snapshot) {
+                  if (snapshot.hasData) {
+                    return SliverPadding(
+                      padding: EdgeInsets.only(left: 2.0, right: 2.0, bottom: 8.0),
+                      sliver: SliverGrid(
+                        delegate: SliverChildBuilderDelegate((context, index) {
+                          return SalonCard(snapshot.data.elementAt(index));
+                        }, childCount: snapshot.data.length),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.1),
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return SliverList(
+                      delegate: SliverChildListDelegate([
+                        Center(
+                          child: Text("Some error..."),
+                        ),
+                      ]),
+                    );
+                  } else {
+                    return SliverList(
+                      delegate: SliverChildListDelegate([
+                        Center(
+                          child: DialogUtils.showCircularProgressBar(),
+                        ),
+                      ]),
+                    );
+                  }
+                },
+                stream: _bloc.salonExtraList,
+              ),
+
             ],
           );
         } else if (snapshot.hasError) {
@@ -102,7 +256,7 @@ class SalonTabState extends State<SalonTab> {
           return DialogUtils.showCircularProgressBar();
         }
       },
-      stream: _bloc.salonList,
+      stream: _bloc.salonPopularList,
     );
   }
 }

@@ -43,6 +43,7 @@ flutter:
   assets:
   - assets/images/logo.jpg
   - assets/images/logo.png
+  - assets/images/location.png
   fonts:
   - family: Nunito
     fonts:

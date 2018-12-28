@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,6 +11,17 @@ class SharedPrefsHelper {
 
   final String PREFS_TOKEN = "TOKEN";
   final String PREFS_IS_LOGIN = "ISLOGIN";
+
+  final String PREFS_SELECTED_AREA_ID = "selectedareaid";
+  final String PREFS_SELECTED_AREA_NAME = "selectedareaname";
+
+  set selectedAreaId(value) => _prefs.setString(PREFS_SELECTED_AREA_ID, value);
+
+  get selectedAreaId => _prefs.getString(PREFS_SELECTED_AREA_ID);
+
+  set selectedAreaName(value) => _prefs.setString(PREFS_SELECTED_AREA_NAME, value);
+
+  get selectedAreaName => _prefs.getString(PREFS_SELECTED_AREA_NAME);
 
   set token(value) => _prefs.setString(PREFS_TOKEN, value);
 
@@ -33,8 +43,7 @@ class SharedPrefsHelper {
   }
 
   void checkIsInitialize() {
-    assert(_prefs != null,
-        "Call prefsHelper.initialize first before using Shared Prefs");
+    assert(_prefs != null, "Call prefsHelper.initialize first before using Shared Prefs");
   }
 
   void clear() {
