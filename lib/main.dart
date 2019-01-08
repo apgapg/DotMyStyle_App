@@ -25,10 +25,9 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.white,
           primarySwatch: Colors.blue,
           fontFamily: 'Nunito',
-
+          scaffoldBackgroundColor: Colors.grey[100],
           iconTheme: IconThemeData(color: Colors.blueGrey[700]),
           primaryIconTheme: IconThemeData(color: Colors.blueGrey[700]),
-
         ),
         home: prefsHelper.isLogin ? HomePage() : LoginPage(),
         //   home: AreaPage(),

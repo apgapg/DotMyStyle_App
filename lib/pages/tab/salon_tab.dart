@@ -5,10 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:salon/bloc/salon_bloc.dart';
 import 'package:salon/data/model/promotion_model.dart';
 import 'package:salon/data/model/salon_model.dart';
-import 'package:salon/feed_model.dart';
 import 'package:salon/pages/salon_detail_page.dart';
 import 'package:salon/utils/dialog_utils.dart';
-import 'package:salon/widget/feed_card.dart';
 import 'package:salon/widget/promotion_card.dart';
 
 class SalonTab extends StatefulWidget {
@@ -31,10 +29,105 @@ class SalonTabState extends State<SalonTab> {
     return StreamBuilder(
       builder: (BuildContext context, AsyncSnapshot<List<SalonItem>> snapshot) {
         if (snapshot.hasData) {
-          return CustomScrollView(
-            slivers: <Widget>[
-
-              new SliverPadding(
+          return CustomScrollView(slivers: <Widget>[
+            new SliverPadding(
+              padding: const EdgeInsets.symmetric(vertical: 0.0),
+              sliver: SliverList(
+                  delegate: SliverChildListDelegate([
+                    Container(
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height / 2.5,
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            height: MediaQuery
+                                .of(context)
+                                .size
+                                .height / 2.5,
+                            foregroundDecoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [Colors.black87, Colors.transparent],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                )),
+                            child: Image.network(
+                              "https://cmkt-image-prd.global.ssl.fastly.net/0.1.0/ps/792857/580/386/m1/fpnw/wm0/instagram-.png?1447980780&s=f0f2dc7135c9356224eabe19bc35f597",
+                              fit: BoxFit.fitHeight,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 80.0),
+                            padding: EdgeInsets.symmetric(horizontal: 12.0),
+                            height: 44,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(24.0),
+                                ),
+                                color: Colors.white),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.search,
+                                  size: 20.0,
+                                ),
+                                SizedBox(
+                                  width: 6.0,
+                                ),
+                                Expanded(
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText: "Search any Salon, Service or Expert",
+                                      border: InputBorder.none,
+                                    ),
+                                    style: TextStyle(fontSize: 13.5),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            left: 22.0,
+                            top: 32.0,
+                            child: Text(
+                              "DOT",
+                              style: TextStyle(fontWeight: FontWeight.w900, color: Colors.white, fontSize: 24.0, letterSpacing: 1.2),
+                            ),
+                          ),
+                        ],
+                      ),
+                      color: Colors.blueGrey[700],
+                    )
+                  ])),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.all(0.0),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    Container(
+                      padding: EdgeInsets.only(top: 16.0),
+                      height: 108.0,
+                      color: Colors.white,
+                      child: ListView(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        children: <Widget>[
+                          AreaWidget("Nearby"),
+                          AreaWidget("Delhi"),
+                          AreaWidget("Gurgaon"),
+                          AreaWidget("Noida"),
+                          AreaWidget("Ghaziabad"),
+                        ],
+                        scrollDirection: Axis.horizontal,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            /*new SliverPadding(
                 padding: const EdgeInsets.symmetric(vertical: 2.0),
                 sliver: new SliverList(
                     delegate: new SliverChildListDelegate([
@@ -88,88 +181,139 @@ class SalonTabState extends State<SalonTab> {
                     color: Colors.blueGrey[50],
                   ),
                 ])),
-              ),
-
-
-              new SliverList(
+              ),*/
+            /* new SliverList(
                   delegate: new SliverChildListDelegate([
-                    Container(
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            SizedBox(
-                              height: 4.0,
+                Container(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 4.0,
+                        ),
+                        Text(
+                          "NEAR SALONS",
+                          style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 16.0),
+                        ),
+                        SizedBox(
+                          height: 4.0,
+                        ),
+                        Text(
+                          "DISCOVER THE BEST SALONS NEARBY",
+                          style: TextStyle(fontWeight: FontWeight.w500, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 12.0),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ])),*/
+            SliverPadding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+            new SliverList(
+              delegate: new SliverChildListDelegate(
+                [
+                  Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 0.0, left: 12.0, right: 12.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              "Popular Around You",
+                              style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.2, color: Colors.blueGrey[900], fontSize: 12.0),
                             ),
-                            Text(
-                              "NEAR SALONS",
-                              style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 16.0),
-                            ),
-                            SizedBox(
-                              height: 4.0,
-                            ),
-                            Text(
+                          ),
+
+                          /*Text(
                               "DISCOVER THE BEST SALONS NEARBY",
                               style: TextStyle(fontWeight: FontWeight.w500, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 12.0),
-                            ),
-                          ],
-                        ),
+                            ),*/
+                        ],
                       ),
                     ),
-                  ])),
-
-              SliverPadding(
-                padding: EdgeInsets.only(left: 2.0, right: 2.0, bottom: 8.0),
-                sliver: SliverGrid(
+                  ),
+                ],
+              ),
+            ),
+            SliverPadding(
+                padding: EdgeInsets.all(0.0),
+                sliver: SliverToBoxAdapter(
+                  child: Container(
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height / 3.0,
+                    color: Colors.white,
+                    child: ListView.builder(
+                      padding: EdgeInsets.only(left: 6.0, right: 6.0, top: 4.0, bottom: 12.0),
+                      itemBuilder: (context, index) {
+                        return SalonCard(snapshot.data.elementAt(index));
+                      },
+                      itemCount: snapshot.data.length,
+                      scrollDirection: Axis.horizontal,
+                    ),
+                  ),
+                )
+              /*SliverList(
+                  */ /*     delegate: SliverChildListDelegate((context, index) {
+                    return SalonCard(snapshot.data.elementAt(index));
+                  }, childCount: snapshot.data.length),*/ /*
                   delegate: SliverChildBuilderDelegate((context, index) {
                     return SalonCard(snapshot.data.elementAt(index));
-                  }, childCount: snapshot.data.length),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.1),
+                  }, childCount: snapshot.data.length,),
+                ),*/
                 ),
-              ),
-              new SliverList(
-                  delegate: new SliverChildListDelegate([
-                    Container(
-                      color: Colors.blueGrey[50],
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            SizedBox(
-                              height: 4.0,
+            SliverPadding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+            new SliverList(
+              delegate: new SliverChildListDelegate(
+                [
+                  Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 14.0, bottom: 6.0, left: 12.0, right: 12.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              "Hot Deals Around You",
+                              style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.2, color: Colors.blueGrey[900], fontSize: 14.0),
                             ),
-                            Text(
-                              "DOT BOOK",
-                              style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 16.0),
-                            ),
-                            SizedBox(
-                              height: 4.0,
-                            ),
-                            Text(
-                              "READ WHAT'S THE LATEST IN",
+                          ),
+                          ViewAll(),
+                          /*Text(
+                              "DISCOVER THE BEST SALONS NEARBY",
                               style: TextStyle(fontWeight: FontWeight.w500, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 12.0),
-                            ),
-                          ],
-                        ),
+                            ),*/
+                        ],
                       ),
                     ),
+                  ),
+                ],
+              ),
+            ),
+            new SliverPadding(
+              padding: const EdgeInsets.symmetric(vertical: 0.0),
+              sliver: new SliverList(
+                  delegate: new SliverChildListDelegate([
                     Container(
-                      height: 200.0,
-                      padding: EdgeInsets.only(bottom: 8.0),
-                      color: Colors.blueGrey[50],
+                      height: 190.0,
+                      color: Colors.white,
                       child: StreamBuilder(
-                        builder: (BuildContext context, AsyncSnapshot<List<FeedItem>> snapshot) {
+                        builder: (BuildContext context, AsyncSnapshot<List<PromotionItem>> snapshot) {
                           if (snapshot.hasData) {
                             return ListView.builder(
-                              padding: EdgeInsets.symmetric(horizontal: 4.0),
-                              itemBuilder: (context, index) {
-                                return FeedCard(snapshot.data.elementAt(index));
-                              },
-                              itemCount: snapshot.data.length,
+                              padding: EdgeInsets.only(left: 6.0, right: 6.0, bottom: 4.0, top: 4.0),
                               scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) => PromotionCard(snapshot.data.elementAt(index)),
+                              itemCount: snapshot.data.length,
                             );
                           } else if (snapshot.hasError) {
                             return Center(
@@ -179,75 +323,125 @@ class SalonTabState extends State<SalonTab> {
                             return DialogUtils.showCircularProgressBar();
                           }
                         },
-                        stream: _bloc.feedController,
+                        stream: _bloc.promotionList,
                       ),
-                    )
-                  ])),
-
-              new SliverList(
-                  delegate: new SliverChildListDelegate([
-                    Container(
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            SizedBox(
-                              height: 4.0,
-                            ),
-                            Text(
-                              "MORE SALONS",
-                              style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 16.0),
-                            ),
-                            SizedBox(
-                              height: 4.0,
-                            ),
-                            Text(
-                              "LISTING OTHER QUALITY SALONS",
-                              style: TextStyle(fontWeight: FontWeight.w500, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 12.0),
-                            ),
-                          ],
-                        ),
-                      ),
+                      padding: EdgeInsets.only(bottom: 8.0, top: 4.0),
                     ),
                   ])),
+            ),
+            SliverPadding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+            new SliverList(
+              delegate: new SliverChildListDelegate(
+                [
+                  Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 0.0, left: 12.0, right: 12.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              "Dot Experts",
+                              style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.2, color: Colors.blueGrey[900], fontSize: 12.0),
+                            ),
+                          ),
 
-              StreamBuilder(
-                builder: (BuildContext context, AsyncSnapshot<List<SalonItem>> snapshot) {
-                  if (snapshot.hasData) {
-                    return SliverPadding(
-                      padding: EdgeInsets.only(left: 2.0, right: 2.0, bottom: 8.0),
-                      sliver: SliverGrid(
-                        delegate: SliverChildBuilderDelegate((context, index) {
-                          return SalonCard(snapshot.data.elementAt(index));
-                        }, childCount: snapshot.data.length),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.1),
+                          /*Text(
+                              "DISCOVER THE BEST SALONS NEARBY",
+                              style: TextStyle(fontWeight: FontWeight.w500, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 12.0),
+                            ),*/
+                        ],
                       ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return SliverList(
-                      delegate: SliverChildListDelegate([
-                        Center(
-                          child: Text("Some error..."),
-                        ),
-                      ]),
-                    );
-                  } else {
-                    return SliverList(
-                      delegate: SliverChildListDelegate([
-                        Center(
-                          child: DialogUtils.showCircularProgressBar(),
-                        ),
-                      ]),
-                    );
-                  }
-                },
-                stream: _bloc.salonExtraList,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.all(0.0),
+              sliver: SliverToBoxAdapter(
+                child: Container(
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height / 3.0,
+                  color: Colors.white,
+                  child: ListView.builder(
+                    padding: EdgeInsets.only(left: 6.0, right: 6.0, top: 4.0, bottom: 12.0),
+                    itemBuilder: (context, index) {
+                      return StylistCard(snapshot.data.elementAt(index));
+                    },
+                    itemCount: snapshot.data.length,
+                    scrollDirection: Axis.horizontal,
+                  ),
+                ),
               ),
 
-            ],
-          );
+              /*SliverList(
+                  */ /*     delegate: SliverChildListDelegate((context, index) {
+                    return SalonCard(snapshot.data.elementAt(index));
+                  }, childCount: snapshot.data.length),*/ /*
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    return SalonCard(snapshot.data.elementAt(index));
+                  }, childCount: snapshot.data.length,),
+                ),*/
+            ),
+            SliverPadding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+            new SliverList(
+              delegate: new SliverChildListDelegate(
+                [
+                  Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 14.0, bottom: 6.0, left: 12.0, right: 12.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              "Dot Book",
+                              style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.2, color: Colors.blueGrey[900], fontSize: 14.0),
+                            ),
+                          ),
+                          ViewAll(),
+                          /*Text(
+                              "DISCOVER THE BEST SALONS NEARBY",
+                              style: TextStyle(fontWeight: FontWeight.w500, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 12.0),
+                            ),*/
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.all(0.0),
+              sliver: SliverToBoxAdapter(
+                child: Container(
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height / 3.2,
+                  color: Colors.white,
+                  child: ListView.builder(
+                    padding: EdgeInsets.only(left: 6.0, right: 6.0, top: 4.0, bottom: 12.0),
+                    itemBuilder: (context, index) {
+                      return BookCard(snapshot.data.elementAt(index));
+                    },
+                    itemCount: snapshot.data.length,
+                    scrollDirection: Axis.horizontal,
+                  ),
+                ),
+              ),
+            ),
+            SliverPadding(padding: EdgeInsets.symmetric(vertical: 10.0)),
+
+          ]);
         } else if (snapshot.hasError) {
           return Center(
             child: Text("Some error..."),
@@ -272,62 +466,69 @@ class SalonCard extends StatefulWidget {
 class _SalonCardState extends State<SalonCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: GestureDetector(
-        onTap: () {
-          onSalonItemTap(widget.item);
-        },
-        child: Card(
-          margin: EdgeInsets.all(4.0),
-          elevation: 1.0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4.0))),
-          child: Container(
-            child: Stack(
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: new BorderRadius.only(
-                          topLeft: Radius.circular(4.0),
-                          topRight: Radius.circular(4.0),
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl: widget.item.image,
-                          fit: BoxFit.fitHeight,
+    return AspectRatio(
+      aspectRatio: 0.8,
+      child: Container(
+        color: Colors.white,
+        child: GestureDetector(
+          onTap: () {
+            onSalonItemTap(widget.item);
+          },
+          child: Card(
+            margin: EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
+            elevation: 1.0,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4.0))),
+            child: Container(
+              child: Stack(
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: new BorderRadius.only(
+                            topLeft: Radius.circular(4.0),
+                            topRight: Radius.circular(4.0),
+                          ),
+                          child: CachedNetworkImage(
+                            imageUrl: widget.item.image,
+                            fit: BoxFit.fitHeight,
+                          ),
                         ),
                       ),
-                    ),
-                    // Expanded(
-                    //   child: Container(color: Colors.grey[300]),
-                    // ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text(
-                            widget.item.name,
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          SizedBox(
-                            height: 2.0,
-                          ),
-                        ],
+                      // Expanded(
+                      //   child: Container(color: Colors.grey[300]),
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              widget.item.name,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
+                              maxLines: 1,
+                            ),
+                            SizedBox(
+                              height: 2.0,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
 
-                    //  Image.network(widget.item.Salon_u),
-                  ],
-                ),
-                Positioned(
-                  right: 0.0,
-                  top: 0.0,
-                  child: GenderWidget(widget.item.genderType),
-                ),
-              ],
+                      //  Image.network(widget.item.Salon_u),
+                    ],
+                  ),
+                  Positioned(
+                    right: 0.0,
+                    top: 0.0,
+                    child: GenderWidget(widget.item.genderType),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -445,3 +646,238 @@ class GenderWidget extends StatelessWidget {
     );
   }
 }
+
+class AreaWidget extends StatelessWidget {
+  final String text;
+
+  AreaWidget(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12.0),
+      child: new Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            height: 56.0,
+            width: 56.0,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.blueGrey[100],
+            ),
+            child: Container(),
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          Text(
+            text,
+            style: TextStyle(fontSize: 12.0),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ViewAll extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "VIEW ALL",
+      style: TextStyle(fontWeight: FontWeight.w700, letterSpacing: 1.2, color: Colors.red, fontSize: 12.0),
+    );
+  }
+}
+
+class StylistCard extends StatefulWidget {
+  final SalonItem item;
+
+  StylistCard(this.item);
+
+  _StylistCardState createState() => _StylistCardState();
+}
+
+class _StylistCardState extends State<StylistCard> {
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 1.0,
+      child: Container(
+        color: Colors.white,
+        child: GestureDetector(
+          onTap: () {
+            onSalonItemTap(widget.item);
+          },
+          child: Card(
+            margin: EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
+            elevation: 1.0,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4.0))),
+            child: Container(
+              child: Stack(
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: new BorderRadius.only(
+                            topLeft: Radius.circular(4.0),
+                            topRight: Radius.circular(4.0),
+                          ),
+                          child: CachedNetworkImage(
+                            imageUrl: widget.item.image,
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                      ),
+                      // Expanded(
+                      //   child: Container(color: Colors.grey[300]),
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              widget.item.name,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
+                              maxLines: 1,
+                            ),
+                            SizedBox(
+                              height: 2.0,
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      //  Image.network(widget.item.Salon_u),
+                    ],
+                  ),
+                  Positioned(
+                    right: 0.0,
+                    top: 0.0,
+                    child: GenderWidget(widget.item.genderType),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  String getTags(List<String> tags) {
+    StringBuffer stringBuffer = StringBuffer();
+    stringBuffer.writeAll(tags.map((tag) => "#" + tag), " ");
+    return stringBuffer.toString();
+  }
+
+  void onSalonItemTap(SalonItem item) {
+    Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) =>
+            new SalonDetailPage(
+              item: item,
+            )));
+  }
+}
+
+
+class BookCard extends StatefulWidget {
+  final SalonItem item;
+
+  BookCard(this.item);
+
+  _BookCardState createState() => _BookCardState();
+}
+
+class _BookCardState extends State<BookCard> {
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 0.9,
+      child: Container(
+        color: Colors.white,
+        child: GestureDetector(
+          onTap: () {
+            onSalonItemTap(widget.item);
+          },
+          child: Card(
+            margin: EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
+            elevation: 1.0,
+            child: Container(
+              child: Stack(
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        child: CachedNetworkImage(
+                          imageUrl: widget.item.image,
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
+                      // Expanded(
+                      //   child: Container(color: Colors.grey[300]),
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              widget.item.name,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
+                              maxLines: 1,
+                            ),
+                            SizedBox(
+                              height: 2.0,
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      //  Image.network(widget.item.Salon_u),
+                    ],
+                  ),
+                  Positioned(
+                    right: 0.0,
+                    top: 0.0,
+                    child: GenderWidget(widget.item.genderType),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  String getTags(List<String> tags) {
+    StringBuffer stringBuffer = StringBuffer();
+    stringBuffer.writeAll(tags.map((tag) => "#" + tag), " ");
+    return stringBuffer.toString();
+  }
+
+  void onSalonItemTap(SalonItem item) {
+    Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) =>
+            new SalonDetailPage(
+              item: item,
+            )));
+  }
+}
+

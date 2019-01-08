@@ -13,18 +13,11 @@ class _PromotionCardState extends State<PromotionCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200.0,
       padding: EdgeInsets.symmetric(horizontal: 4.0),
-      child: Card(
-        elevation: 2.0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4.0))),
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(4.0)),
-          child: Image.network(
-            widget.item.promotion_image,
-            fit: BoxFit.fitWidth,
-          ),
-        ),
+      margin: EdgeInsets.all(2.0),
+      child: Image.network(
+        widget.item.promotion_image,
+        fit: BoxFit.fitHeight,
       ),
     );
   }

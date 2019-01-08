@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      /* appBar: AppBar(
         title: Text(
           "DotMyStyle",
           style: TextStyle(color: Colors.blueGrey[700]),
@@ -55,12 +55,11 @@ class _HomePageState extends State<HomePage> {
             onPressed: onProfilePress,
           )
         ],
-      ),
-      backgroundColor: Theme.of(context).backgroundColor,
+      ),*/
       body: _pageList.elementAt(_selectedPageIndex),
       bottomNavigationBar: BottomAppBar(
         child: Container(
-          height: 56.0,
+          height: 44.0,
           child: Flex(
             direction: Axis.horizontal,
             mainAxisSize: MainAxisSize.max,
