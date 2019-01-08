@@ -18,11 +18,11 @@ class SalonTab extends StatefulWidget {
 
 class SalonTabState extends State<SalonTab> {
   SalonBloc _bloc = new SalonBloc();
-  final _controller = new PageController();
+
+/*  final _controller = new PageController();
   final _feedPagecontroller = new PageController();
   static const _kDuration = const Duration(milliseconds: 300);
-
-  static const _kCurve = Curves.ease;
+  static const _kCurve = Curves.ease;*/
 
   @override
   Widget build(BuildContext context) {
@@ -102,29 +102,25 @@ class SalonTabState extends State<SalonTab> {
                     )
                   ])),
             ),
-            SliverPadding(
-              padding: EdgeInsets.all(0.0),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    Container(
-                      padding: EdgeInsets.only(top: 16.0),
-                      height: 108.0,
-                      color: Colors.white,
-                      child: ListView(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        children: <Widget>[
-                          AreaWidget("Nearby"),
-                          AreaWidget("Delhi"),
-                          AreaWidget("Gurgaon"),
-                          AreaWidget("Noida"),
-                          AreaWidget("Ghaziabad"),
-                        ],
-                        scrollDirection: Axis.horizontal,
-                      ),
-                    )
-                  ],
-                ),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Container(
+                    height: 108.0,
+                    color: Colors.white,
+                    child: ListView(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      children: <Widget>[
+                        AreaWidget("Nearby", animate: true),
+                        AreaWidget("Delhi"),
+                        AreaWidget("Gurgaon"),
+                        AreaWidget("Noida"),
+                        AreaWidget("Ghaziabad"),
+                      ],
+                      scrollDirection: Axis.horizontal,
+                    ),
+                  )
+                ],
               ),
             ),
             /*new SliverPadding(
@@ -440,7 +436,6 @@ class SalonTabState extends State<SalonTab> {
               ),
             ),
             SliverPadding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-
           ]);
         } else if (snapshot.hasError) {
           return Center(
@@ -647,32 +642,75 @@ class GenderWidget extends StatelessWidget {
   }
 }
 
-class AreaWidget extends StatelessWidget {
+class AreaWidget extends StatefulWidget {
   final String text;
 
-  AreaWidget(this.text);
+  final bool animate;
+
+  AreaWidget(this.text, {this.animate = false});
+
+  @override
+  AreaWidgetState createState() {
+    return new AreaWidgetState();
+  }
+}
+
+class AreaWidgetState extends State<AreaWidget> with SingleTickerProviderStateMixin {
+  Animation<double> animation;
+  AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(duration: const Duration(milliseconds: 90), vsync: this);
+    animation = Tween(begin: 56.0, end: 64.0).animate(controller)
+      ..addListener(() {
+        setState(() {});
+      });
+    controller.addStatusListener((status) async {
+      if (status == AnimationStatus.completed) {
+        controller.reverse();
+      } else if (status == AnimationStatus.dismissed) {
+        await Future.delayed(Duration(milliseconds: 1400));
+        controller.forward();
+      }
+    });
+    if (widget.animate) controller.forward();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.0),
+      width: 84.0,
+      alignment: Alignment.center,
       child: new Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
-            height: 56.0,
-            width: 56.0,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.blueGrey[100],
+            height: 68.0,
+            width: 68.0,
+            child: Container(
+              height: animation.value,
+              width: animation.value,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: widget.animate ? Colors.redAccent : Colors.blueGrey[100],
+              ),
+              child: widget.animate ? Center(
+                child: Icon(Icons.my_location, size: 28.0, color: Colors.white,),
+              ) : Center(),
             ),
-            child: Container(),
-          ),
-          SizedBox(
-            height: 8.0,
+            alignment: Alignment.center,
           ),
           Text(
-            text,
+            widget.text,
             style: TextStyle(fontSize: 12.0),
           ),
         ],
@@ -789,7 +827,6 @@ class _StylistCardState extends State<StylistCard> {
   }
 }
 
-
 class BookCard extends StatefulWidget {
   final SalonItem item;
 
@@ -880,4 +917,3 @@ class _BookCardState extends State<BookCard> {
             )));
   }
 }
-
