@@ -50,6 +50,12 @@ flutter:
     - asset: assets/fonts/nunitoSemiBold.ttf
     - asset: assets/fonts/nunitoBold.ttf
       weight: 700
+  - family: whitneybookbas
+    fonts:
+    - asset: assets/fonts/whitneybookbas.otf
+  - family: sourcesanspro
+    fonts:
+    - asset: assets/fonts/sourcesanspro-regular.otf
   - family:  MyIcons
     fonts:
     - asset: assets/fonts/MyIcons.ttf

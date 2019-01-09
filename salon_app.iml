@@ -8,6 +8,9 @@
       <excludeFolder url="file://$MODULE_DIR$/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/auto_complete_text_field/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/auto_complete_text_field/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/auto_complete_text_field/build" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />

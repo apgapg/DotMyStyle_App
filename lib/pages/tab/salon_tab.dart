@@ -7,6 +7,7 @@ import 'package:salon/data/model/promotion_model.dart';
 import 'package:salon/data/model/salon_model.dart';
 import 'package:salon/pages/salon_detail_page.dart';
 import 'package:salon/utils/dialog_utils.dart';
+import 'package:salon/widget/CityWidget.dart';
 import 'package:salon/widget/promotion_card.dart';
 
 class SalonTab extends StatefulWidget {
@@ -112,10 +113,22 @@ class SalonTabState extends State<SalonTab> {
                       padding: EdgeInsets.symmetric(horizontal: 8.0),
                       children: <Widget>[
                         AreaWidget("Nearby", animate: true),
-                        AreaWidget("Delhi"),
-                        AreaWidget("Gurgaon"),
-                        AreaWidget("Noida"),
-                        AreaWidget("Ghaziabad"),
+                        CityWidget(
+                          "Delhi",
+                          imageUrl: "https://d53pfl4a028j5.cloudfront.net/uploads/city_image/New%20Delhi%20cropped.jpg",
+                        ),
+                        CityWidget(
+                          "Gurgaon",
+                          imageUrl: "https://d53pfl4a028j5.cloudfront.net/uploads/city_image/rapid-metro-banner.jpg",
+                        ),
+                        CityWidget(
+                          "Noida",
+                          imageUrl: "https://d53pfl4a028j5.cloudfront.net/uploads/city_image/noida.jpg",
+                        ),
+                        CityWidget(
+                          "Ghaziabad",
+                          imageUrl: "https://d53pfl4a028j5.cloudfront.net/uploads/city_image/gaziabad%203.jpg",
+                        ),
                       ],
                       scrollDirection: Axis.horizontal,
                     ),
@@ -213,6 +226,35 @@ class SalonTabState extends State<SalonTab> {
                   Container(
                     color: Colors.white,
                     child: Padding(
+                      padding: const EdgeInsets.only(top: 14.0, bottom: 6.0, left: 12.0, right: 12.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              "Popular Around You",
+                              style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.2, color: Colors.blueGrey[900], fontSize: 14.0),
+                            ),
+                          ),
+                          /*Text(
+                              "DISCOVER THE BEST SALONS NEARBY",
+                              style: TextStyle(fontWeight: FontWeight.w500, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 12.0),
+                            ),*/
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            /*  new SliverList(
+              delegate: new SliverChildListDelegate(
+                [
+                  Container(
+                    color: Colors.white,
+                    child: Padding(
                       padding: const EdgeInsets.only(top: 8.0, bottom: 0.0, left: 12.0, right: 12.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -225,17 +267,17 @@ class SalonTabState extends State<SalonTab> {
                             ),
                           ),
 
-                          /*Text(
+                          */ /*Text(
                               "DISCOVER THE BEST SALONS NEARBY",
                               style: TextStyle(fontWeight: FontWeight.w500, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 12.0),
-                            ),*/
+                            ),*/ /*
                         ],
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
+            ),*/
             SliverPadding(
                 padding: EdgeInsets.all(0.0),
                 sliver: SliverToBoxAdapter(
@@ -332,18 +374,19 @@ class SalonTabState extends State<SalonTab> {
                   Container(
                     color: Colors.white,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 0.0, left: 12.0, right: 12.0),
+                      padding: const EdgeInsets.only(top: 14.0, bottom: 6.0, left: 12.0, right: 12.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
                             child: Text(
                               "Dot Experts",
-                              style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.2, color: Colors.blueGrey[900], fontSize: 12.0),
+                              style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.2, color: Colors.blueGrey[900], fontSize: 14.0),
                             ),
                           ),
-
+                          ViewAll(),
                           /*Text(
                               "DISCOVER THE BEST SALONS NEARBY",
                               style: TextStyle(fontWeight: FontWeight.w500, letterSpacing: 1.2, color: Colors.blueGrey[700], fontSize: 12.0),
@@ -362,7 +405,7 @@ class SalonTabState extends State<SalonTab> {
                   height: MediaQuery
                       .of(context)
                       .size
-                      .height / 3.0,
+                      .height / 4.0,
                   color: Colors.white,
                   child: ListView.builder(
                     padding: EdgeInsets.only(left: 6.0, right: 6.0, top: 4.0, bottom: 12.0),
@@ -471,7 +514,7 @@ class _SalonCardState extends State<SalonCard> {
           },
           child: Card(
             margin: EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
-            elevation: 1.0,
+            elevation: 0.0,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4.0))),
             child: Container(
               child: Stack(
@@ -482,8 +525,10 @@ class _SalonCardState extends State<SalonCard> {
                       Expanded(
                         child: ClipRRect(
                           borderRadius: new BorderRadius.only(
-                            topLeft: Radius.circular(4.0),
-                            topRight: Radius.circular(4.0),
+                            topLeft: Radius.circular(2.0),
+                            topRight: Radius.circular(2.0),
+                            bottomRight: Radius.circular(2.0),
+                            bottomLeft: Radius.circular(2.0),
                           ),
                           child: CachedNetworkImage(
                             imageUrl: widget.item.image,
@@ -495,16 +540,14 @@ class _SalonCardState extends State<SalonCard> {
                       //   child: Container(color: Colors.grey[300]),
                       // ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Text(
                               widget.item.name,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0, color: Colors.black),
                               maxLines: 1,
                             ),
                             SizedBox(
@@ -663,7 +706,7 @@ class AreaWidgetState extends State<AreaWidget> with SingleTickerProviderStateMi
   void initState() {
     super.initState();
     controller = AnimationController(duration: const Duration(milliseconds: 90), vsync: this);
-    animation = Tween(begin: 56.0, end: 64.0).animate(controller)
+    animation = Tween(begin: 56.0, end: 60.0).animate(controller)
       ..addListener(() {
         setState(() {});
       });
@@ -703,9 +746,15 @@ class AreaWidgetState extends State<AreaWidget> with SingleTickerProviderStateMi
                 shape: BoxShape.circle,
                 color: widget.animate ? Colors.redAccent : Colors.blueGrey[100],
               ),
-              child: widget.animate ? Center(
-                child: Icon(Icons.my_location, size: 28.0, color: Colors.white,),
-              ) : Center(),
+              child: widget.animate
+                  ? Center(
+                child: Icon(
+                  Icons.my_location,
+                  size: 28.0,
+                  color: Colors.white,
+                ),
+              )
+                  : Center(),
             ),
             alignment: Alignment.center,
           ),
@@ -741,7 +790,7 @@ class _StylistCardState extends State<StylistCard> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.0,
+      aspectRatio: 0.8,
       child: Container(
         color: Colors.white,
         child: GestureDetector(
@@ -750,7 +799,7 @@ class _StylistCardState extends State<StylistCard> {
           },
           child: Card(
             margin: EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
-            elevation: 1.0,
+            elevation: 0.0,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4.0))),
             child: Container(
               child: Stack(
@@ -774,7 +823,7 @@ class _StylistCardState extends State<StylistCard> {
                       //   child: Container(color: Colors.grey[300]),
                       // ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
@@ -782,7 +831,7 @@ class _StylistCardState extends State<StylistCard> {
                             Text(
                               widget.item.name,
                               style: TextStyle(
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                               ),
                               maxLines: 1,
                             ),
