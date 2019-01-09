@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:salon/api_helper.dart';
 import 'package:salon/data/local/SharedPrefsHelper.dart';
@@ -18,6 +20,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
+  static const platform = const MethodChannel("workflowapp.flutter.io/devicedetail");
+
   TextEditingController _numberController = new TextEditingController();
   TextEditingController _otpController = new TextEditingController();
 
@@ -61,6 +65,8 @@ class LoginPageState extends State<LoginPage> {
   }
 
   onRegisterButtonClick() async {
+    await _initOtpReader();
+
     DialogUtils.showProgressBar(context, "Requesting OTP...");
 
     var number = _numberController.text;
@@ -284,5 +290,25 @@ class LoginPageState extends State<LoginPage> {
         ),
       ],
     );
+  }
+
+  Future<void> _initOtpReader() async {
+    if (Platform.isAndroid) {
+      final bool result = await platform.invokeMethod('smsPermission');
+      if (result != null && result) {
+        print("SMS Permission granted");
+        platform.invokeMethod('getOtp').then((otp) {
+          print(otp.toString());
+          if (otp != null && otp
+              .toString()
+              .isNotEmpty) {
+            _otpController.text = otp.toString();
+            onOtpButtonClick();
+          }
+        });
+      } else {
+        print("Otp init error");
+      }
+    }
   }
 }
