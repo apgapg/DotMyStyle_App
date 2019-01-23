@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:salon/bloc/salon_bloc.dart';
 import 'package:salon/data/model/promotion_model.dart';
 import 'package:salon/data/model/salon_model.dart';
+import 'package:salon/data/model/stylist_model.dart';
 import 'package:salon/pages/salon_detail_page.dart';
 import 'package:salon/utils/dialog_utils.dart';
 import 'package:salon/widget/CityWidget.dart';
@@ -407,13 +408,23 @@ class SalonTabState extends State<SalonTab> {
                       .size
                       .height / 4.0,
                   color: Colors.white,
-                  child: ListView.builder(
-                    padding: EdgeInsets.only(left: 6.0, right: 6.0, top: 4.0, bottom: 12.0),
-                    itemBuilder: (context, index) {
-                      return StylistCard(snapshot.data.elementAt(index));
+                  child: StreamBuilder(
+                    builder: (context, AsyncSnapshot<List<StylistItem>> data) {
+                      if (data.hasData) {
+                        return ListView.builder(
+                          padding: EdgeInsets.only(left: 6.0, right: 6.0, top: 4.0, bottom: 12.0),
+                          itemBuilder: (context, index) {
+                            return StylistCard(data.data.elementAt(index));
+                          },
+                          itemCount: data.data.length,
+                          scrollDirection: Axis.horizontal,
+                        );
+                      } else
+                        return SizedBox(
+                          width: 0.0,
+                        );
                     },
-                    itemCount: snapshot.data.length,
-                    scrollDirection: Axis.horizontal,
+                    stream: _bloc.stylistController,
                   ),
                 ),
               ),
@@ -779,7 +790,7 @@ class ViewAll extends StatelessWidget {
 }
 
 class StylistCard extends StatefulWidget {
-  final SalonItem item;
+  final StylistItem item;
 
   StylistCard(this.item);
 
@@ -795,7 +806,7 @@ class _StylistCardState extends State<StylistCard> {
         color: Colors.white,
         child: GestureDetector(
           onTap: () {
-            onSalonItemTap(widget.item);
+            // onSalonItemTap(widget.item);
           },
           child: Card(
             margin: EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
@@ -814,7 +825,7 @@ class _StylistCardState extends State<StylistCard> {
                             topRight: Radius.circular(4.0),
                           ),
                           child: CachedNetworkImage(
-                            imageUrl: widget.item.image,
+                            imageUrl: widget.item.profilePicture,
                             fit: BoxFit.fitHeight,
                           ),
                         ),

@@ -17,7 +17,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:allowBackup="false"
-        android:label="@string/app_name"
+        android:label="DotMyStyle"
 
         tools:replace="android:allowBackup"
         android:icon="@mipmap/ic_launcher">

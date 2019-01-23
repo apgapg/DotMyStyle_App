@@ -6,6 +6,7 @@ import 'package:salon/bloc/base_bloc.dart';
 import 'package:salon/data/local/SharedPrefsHelper.dart';
 import 'package:salon/data/model/promotion_model.dart';
 import 'package:salon/data/model/salon_model.dart';
+import 'package:salon/data/model/stylist_model.dart';
 import 'package:salon/data/network/api_endpoint.dart';
 import 'package:salon/feed_model.dart';
 import 'package:salon/network_utils.dart';
@@ -16,6 +17,7 @@ class SalonBloc extends BaseBloc {
   BehaviorSubject<List<SalonItem>> salonExtraList;
   BehaviorSubject<List<PromotionItem>> promotionList;
   BehaviorSubject<List<FeedItem>> feedController;
+  BehaviorSubject<List<StylistItem>> stylistController;
 
   factory SalonBloc() {
     if (_instance == null) return _instance = SalonBloc._internal();
@@ -27,10 +29,12 @@ class SalonBloc extends BaseBloc {
     salonExtraList = new BehaviorSubject();
     promotionList = new BehaviorSubject();
     feedController = new BehaviorSubject();
+    stylistController = new BehaviorSubject();
 
     initPromotionData();
     initSalonData();
     initFeedData();
+    initStylistData();
   }
 
   void initSalonData() async {
@@ -82,11 +86,22 @@ class SalonBloc extends BaseBloc {
     }
   }
 
+  void initStylistData() async {
+    NetworkResponse _networkResponse = await apiHelper.getWithAuth1(endpoint: ApiEndpoint.experts);
+    if (_networkResponse.isSuccess) {
+      StylistModel _model = StylistModel.fromJson(json.decode(_networkResponse.response.body));
+      stylistController.add(_model.stylistList);
+    } else {
+      print("Some error");
+    }
+  }
+
   @override
   void dispose() {
     salonPopularList.close();
     salonExtraList.close();
     promotionList.close();
     feedController.close();
+    stylistController.close();
   }
 }
