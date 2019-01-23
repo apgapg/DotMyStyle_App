@@ -49,7 +49,7 @@ public class MainActivity extends FlutterActivity implements OTPListener {
   }
 
   private void initOtpReader() {
-    OtpReader.bind(this, "FLDAST");
+    OtpReader.bind(this, "TFCTOR");
 
   }
 
