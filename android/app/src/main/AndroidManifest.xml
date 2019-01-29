@@ -19,7 +19,7 @@
         android:allowBackup="false"
         android:label="DotMyStyle"
 
-        tools:replace="android:allowBackup"
+        tools:replace="android:allowBackup,android:label"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
