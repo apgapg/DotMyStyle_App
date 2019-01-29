@@ -1,15 +1,18 @@
 import 'dart:math';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:salon/bloc/salon_bloc.dart';
 import 'package:salon/data/model/promotion_model.dart';
 import 'package:salon/data/model/salon_model.dart';
 import 'package:salon/data/model/stylist_model.dart';
-import 'package:salon/pages/salon_detail_page.dart';
 import 'package:salon/utils/dialog_utils.dart';
 import 'package:salon/widget/CityWidget.dart';
+import 'package:salon/widget/area_widget.dart';
+import 'package:salon/widget/book_card.dart';
 import 'package:salon/widget/promotion_card.dart';
+import 'package:salon/widget/salon_card.dart';
+import 'package:salon/widget/stylist_card.dart';
+import 'package:salon/widget/view_all_button.dart';
 
 class SalonTab extends StatefulWidget {
   @override
@@ -113,7 +116,10 @@ class SalonTabState extends State<SalonTab> {
                     child: ListView(
                       padding: EdgeInsets.symmetric(horizontal: 8.0),
                       children: <Widget>[
-                        AreaWidget("Nearby", animate: true),
+                        AreaWidget(
+                          "Nearby",
+                          animate: true,
+                        ),
                         CityWidget(
                           "Delhi",
                           imageUrl: "https://d53pfl4a028j5.cloudfront.net/uploads/city_image/New%20Delhi%20cropped.jpg",
@@ -504,103 +510,6 @@ class SalonTabState extends State<SalonTab> {
   }
 }
 
-class SalonCard extends StatefulWidget {
-  final SalonItem item;
-
-  SalonCard(this.item);
-
-  _SalonCardState createState() => _SalonCardState();
-}
-
-class _SalonCardState extends State<SalonCard> {
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 0.8,
-      child: Container(
-        color: Colors.white,
-        child: GestureDetector(
-          onTap: () {
-            onSalonItemTap(widget.item);
-          },
-          child: Card(
-            margin: EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
-            elevation: 0.0,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4.0))),
-            child: Container(
-              child: Stack(
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: ClipRRect(
-                          borderRadius: new BorderRadius.only(
-                            topLeft: Radius.circular(2.0),
-                            topRight: Radius.circular(2.0),
-                            bottomRight: Radius.circular(2.0),
-                            bottomLeft: Radius.circular(2.0),
-                          ),
-                          child: CachedNetworkImage(
-                            imageUrl: widget.item.image,
-                            fit: BoxFit.fitHeight,
-                          ),
-                        ),
-                      ),
-                      // Expanded(
-                      //   child: Container(color: Colors.grey[300]),
-                      // ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Text(
-                              widget.item.name,
-                              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0, color: Colors.black),
-                              maxLines: 1,
-                            ),
-                            SizedBox(
-                              height: 2.0,
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      //  Image.network(widget.item.Salon_u),
-                    ],
-                  ),
-                  Positioned(
-                    right: 0.0,
-                    top: 0.0,
-                    child: GenderWidget(widget.item.genderType),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  String getTags(List<String> tags) {
-    StringBuffer stringBuffer = StringBuffer();
-    stringBuffer.writeAll(tags.map((tag) => "#" + tag), " ");
-    return stringBuffer.toString();
-  }
-
-  void onSalonItemTap(SalonItem item) {
-    Navigator.push(
-        context,
-        new MaterialPageRoute(
-            builder: (context) => new SalonDetailPage(
-                  item: item,
-                )));
-  }
-}
-
 /// An indicator showing the currently selected page of a PageController
 class DotsIndicator extends AnimatedWidget {
   DotsIndicator({
@@ -693,287 +602,5 @@ class GenderWidget extends StatelessWidget {
         style: TextStyle(color: Colors.white.withOpacity(1.0), letterSpacing: 1.0, fontSize: 9.0, fontWeight: FontWeight.w500),
       ),
     );
-  }
-}
-
-class AreaWidget extends StatefulWidget {
-  final String text;
-
-  final bool animate;
-
-  AreaWidget(this.text, {this.animate = false});
-
-  @override
-  AreaWidgetState createState() {
-    return new AreaWidgetState();
-  }
-}
-
-class AreaWidgetState extends State<AreaWidget> with SingleTickerProviderStateMixin {
-  Animation<double> animation;
-  AnimationController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = AnimationController(duration: const Duration(milliseconds: 90), vsync: this);
-    animation = Tween(begin: 56.0, end: 60.0).animate(controller)
-      ..addListener(() {
-        setState(() {});
-      });
-    controller.addStatusListener((status) async {
-      if (status == AnimationStatus.completed) {
-        controller.reverse();
-      } else if (status == AnimationStatus.dismissed) {
-        await Future.delayed(Duration(milliseconds: 1400));
-        controller.forward();
-      }
-    });
-    if (widget.animate) controller.forward();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 84.0,
-      alignment: Alignment.center,
-      child: new Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-            height: 68.0,
-            width: 68.0,
-            child: Container(
-              height: animation.value,
-              width: animation.value,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: widget.animate ? Colors.redAccent : Colors.blueGrey[100],
-              ),
-              child: widget.animate
-                  ? Center(
-                child: Icon(
-                  Icons.my_location,
-                  size: 28.0,
-                  color: Colors.white,
-                ),
-              )
-                  : Center(),
-            ),
-            alignment: Alignment.center,
-          ),
-          Text(
-            widget.text,
-            style: TextStyle(fontSize: 12.0),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ViewAll extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      "VIEW ALL",
-      style: TextStyle(fontWeight: FontWeight.w700, letterSpacing: 1.2, color: Colors.red, fontSize: 12.0),
-    );
-  }
-}
-
-class StylistCard extends StatefulWidget {
-  final StylistItem item;
-
-  StylistCard(this.item);
-
-  _StylistCardState createState() => _StylistCardState();
-}
-
-class _StylistCardState extends State<StylistCard> {
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 0.8,
-      child: Container(
-        color: Colors.white,
-        child: GestureDetector(
-          onTap: () {
-            // onSalonItemTap(widget.item);
-          },
-          child: Card(
-            margin: EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
-            elevation: 0.0,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4.0))),
-            child: Container(
-              child: Stack(
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: ClipRRect(
-                          borderRadius: new BorderRadius.only(
-                            topLeft: Radius.circular(4.0),
-                            topRight: Radius.circular(4.0),
-                          ),
-                          child: CachedNetworkImage(
-                            imageUrl: widget.item.profilePicture,
-                            fit: BoxFit.fitHeight,
-                          ),
-                        ),
-                      ),
-                      // Expanded(
-                      //   child: Container(color: Colors.grey[300]),
-                      // ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Text(
-                              widget.item.name,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                              ),
-                              maxLines: 1,
-                            ),
-                            SizedBox(
-                              height: 2.0,
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      //  Image.network(widget.item.Salon_u),
-                    ],
-                  ),
-                  Positioned(
-                    right: 0.0,
-                    top: 0.0,
-                    child: GenderWidget(widget.item.genderType),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  String getTags(List<String> tags) {
-    StringBuffer stringBuffer = StringBuffer();
-    stringBuffer.writeAll(tags.map((tag) => "#" + tag), " ");
-    return stringBuffer.toString();
-  }
-
-  void onSalonItemTap(SalonItem item) {
-    Navigator.push(
-        context,
-        new MaterialPageRoute(
-            builder: (context) =>
-            new SalonDetailPage(
-              item: item,
-            )));
-  }
-}
-
-class BookCard extends StatefulWidget {
-  final SalonItem item;
-
-  BookCard(this.item);
-
-  _BookCardState createState() => _BookCardState();
-}
-
-class _BookCardState extends State<BookCard> {
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 0.9,
-      child: Container(
-        color: Colors.white,
-        child: GestureDetector(
-          onTap: () {
-            onSalonItemTap(widget.item);
-          },
-          child: Card(
-            margin: EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
-            elevation: 1.0,
-            child: Container(
-              child: Stack(
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: CachedNetworkImage(
-                          imageUrl: widget.item.image,
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-                      // Expanded(
-                      //   child: Container(color: Colors.grey[300]),
-                      // ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Text(
-                              widget.item.name,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                              ),
-                              maxLines: 1,
-                            ),
-                            SizedBox(
-                              height: 2.0,
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      //  Image.network(widget.item.Salon_u),
-                    ],
-                  ),
-                  Positioned(
-                    right: 0.0,
-                    top: 0.0,
-                    child: GenderWidget(widget.item.genderType),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  String getTags(List<String> tags) {
-    StringBuffer stringBuffer = StringBuffer();
-    stringBuffer.writeAll(tags.map((tag) => "#" + tag), " ");
-    return stringBuffer.toString();
-  }
-
-  void onSalonItemTap(SalonItem item) {
-    Navigator.push(
-        context,
-        new MaterialPageRoute(
-            builder: (context) =>
-            new SalonDetailPage(
-              item: item,
-            )));
   }
 }
