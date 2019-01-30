@@ -43,181 +43,179 @@ class _SalonDetailPageState extends State<SalonDetailPage> {
           color: Colors.white,
         ),
       ),
-      body: SafeArea(
-        child: StreamBuilder(
-          builder: (BuildContext context, AsyncSnapshot<SalonDetailModel> snapshot) {
-            if (snapshot.hasData) {
-              return SingleChildScrollView(
-                child: Container(
-                  color: Colors.white,
-                  child: Column(
-                    children: <Widget>[
-                      AspectRatio(
-                        aspectRatio: 1.5,
-                        child: CachedNetworkImage(
-                          imageUrl: widget.item.image,
-                          fit: BoxFit.fitWidth,
-                        ),
+      body: StreamBuilder(
+        builder: (BuildContext context, AsyncSnapshot<SalonDetailModel> snapshot) {
+          if (snapshot.hasData) {
+            return SingleChildScrollView(
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  children: <Widget>[
+                    AspectRatio(
+                      aspectRatio: 1.5,
+                      child: CachedNetworkImage(
+                        imageUrl: widget.item.image,
+                        fit: BoxFit.fitWidth,
                       ),
-                      SizedBox(
-                        height: 6.0,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              widget.item.name,
-                              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700, letterSpacing: 1.1),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.location_on,
-                              size: 18.0,
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                                child: Text(
-                                  widget.item.address,
-                                  style: TextStyle(fontSize: 14.0),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              "0.2 km",
-                              style: TextStyle(fontSize: 14.0),
-                              textAlign: TextAlign.start,
-                            ),
-                            SizedBox(
-                              width: 8.0,
-                            ),
-                            CircleAvatar(
-                              backgroundColor: Colors.green[900],
-                              radius: 16.0,
-                              child: Icon(
-                                Icons.location_on,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 4.0,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 8.0,
-                      ),
-                      Container(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Icon(
-                              Icons.done_all,
-                              color: Colors.white,
-                              size: 16.0,
-                            ),
-                            SizedBox(
-                              width: 4.0,
-                            ),
-                            Text(
-                              "Currently Open",
-                              style: TextStyle(fontSize: 12.0, color: Colors.white, fontWeight: FontWeight.w900),
-                            ),
-                          ],
-                        ),
-                        padding: EdgeInsets.only(top: 4.0, bottom: 6.0, left: 10.0, right: 12.0),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.blueGrey[200], width: 0.5),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(16.0),
-                            ),
-                            color: Colors.green),
-                      ),
-                      SizedBox(
-                        height: 12.0,
-                      ),
-                      Container(
-                        color: Colors.blueGrey[50],
-                        height: 1.0,
-                        margin: EdgeInsets.symmetric(horizontal: 32.0),
-                      ),
-                      SizedBox(
-                        height: 4.0,
-                      ),
-                      Row(
+                    ),
+                    SizedBox(
+                      height: 6.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+                      child: Row(
                         children: <Widget>[
-                          HeaderWidget("About"),
+                          Text(
+                            widget.item.name,
+                            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700, letterSpacing: 1.1),
+                          ),
                         ],
                       ),
-                      Row(
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                      child: Row(
                         children: <Widget>[
+                          Icon(
+                            Icons.location_on,
+                            size: 18.0,
+                          ),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 4.0),
                               child: Text(
-                                "Affinity Salon is a very famous salon chain in whole Delhi NCR Area, is a very famous salon chain in whole Delhi NCR Area.",
-                                style: TextStyle(fontSize: 13.0),
+                                widget.item.address,
+                                style: TextStyle(fontSize: 14.0),
+                                textAlign: TextAlign.start,
                               ),
                             ),
-                          )
+                          ),
+                          Text(
+                            "0.2 km",
+                            style: TextStyle(fontSize: 14.0),
+                            textAlign: TextAlign.start,
+                          ),
+                          SizedBox(
+                            width: 8.0,
+                          ),
+                          CircleAvatar(
+                            backgroundColor: Colors.green[900],
+                            radius: 16.0,
+                            child: Icon(
+                              Icons.location_on,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 4.0,
+                          ),
                         ],
                       ),
-                      SizedBox(
-                        height: 12.0,
-                      ),
-                      Row(
+                    ),
+                    SizedBox(
+                      height: 8.0,
+                    ),
+                    Container(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12.0, right: 4.0),
-                            child: Text(
-                              "Timings: ",
-                              style: TextStyle(fontWeight: FontWeight.w700),
-                            ),
+                          Icon(
+                            Icons.done_all,
+                            color: Colors.white,
+                            size: 16.0,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 0.0, bottom: 2.0),
-                            child: Text(
-                              "10:00AM - 8:00PM ",
-                              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12.0, color: Colors.black87),
-                            ),
+                          SizedBox(
+                            width: 4.0,
+                          ),
+                          Text(
+                            "Currently Open",
+                            style: TextStyle(fontSize: 12.0, color: Colors.white, fontWeight: FontWeight.w900),
                           ),
                         ],
                       ),
-                      /*Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: new Wrap(
-                          spacing: 8.0,
-                          // gap between adjacent chips
-                          runSpacing: 8.0, // gap between lines
-                          children: getCategories(snapshot.data),
+                      padding: EdgeInsets.only(top: 4.0, bottom: 6.0, left: 10.0, right: 12.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.blueGrey[200], width: 0.5),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(16.0),
+                          ),
+                          color: Colors.green),
+                    ),
+                    SizedBox(
+                      height: 12.0,
+                    ),
+                    Container(
+                      color: Colors.blueGrey[50],
+                      height: 1.0,
+                      margin: EdgeInsets.symmetric(horizontal: 32.0),
+                    ),
+                    SizedBox(
+                      height: 4.0,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        HeaderWidget("About"),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Text(
+                              "Affinity Salon is a very famous salon chain in whole Delhi NCR Area, is a very famous salon chain in whole Delhi NCR Area.",
+                              style: TextStyle(fontSize: 13.0),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 12.0,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12.0, right: 4.0),
+                          child: Text(
+                            "Timings: ",
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          ),
                         ),
-                      ),*/
-                      SizedBox(
-                        height: 6.0,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 0.0, bottom: 2.0),
+                          child: Text(
+                            "10:00AM - 8:00PM ",
+                            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12.0, color: Colors.black87),
+                          ),
+                        ),
+                      ],
+                    ),
+                    /*Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: new Wrap(
+                        spacing: 8.0,
+                        // gap between adjacent chips
+                        runSpacing: 8.0, // gap between lines
+                        children: getCategories(snapshot.data),
                       ),
-                    ],
-                  ),
+                    ),*/
+                    SizedBox(
+                      height: 6.0,
+                    ),
+                  ],
                 ),
-              );
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Text("Some error..."),
-              );
-            } else {
-              return DialogUtils.showCircularProgressBar();
-            }
-          },
-          stream: _bloc.salonDetail,
-        ),
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text("Some error..."),
+            );
+          } else {
+            return DialogUtils.showCircularProgressBar();
+          }
+        },
+        stream: _bloc.salonDetail,
       ),
     );
   }

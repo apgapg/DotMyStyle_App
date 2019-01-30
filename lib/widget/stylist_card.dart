@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:salon/data/model/salon_model.dart';
 import 'package:salon/data/model/stylist_model.dart';
-import 'package:salon/pages/salon_detail_page.dart';
+import 'package:salon/pages/stylist_detail_page.dart';
 import 'package:salon/pages/tab/salon_tab.dart';
 
 class StylistCard extends StatefulWidget {
@@ -22,7 +21,7 @@ class _StylistCardState extends State<StylistCard> {
         color: Colors.white,
         child: GestureDetector(
           onTap: () {
-            // onSalonItemTap(widget.item);
+            onItemTap(widget.item);
           },
           child: Card(
             margin: EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
@@ -86,17 +85,13 @@ class _StylistCardState extends State<StylistCard> {
     );
   }
 
-  String getTags(List<String> tags) {
-    StringBuffer stringBuffer = StringBuffer();
-    stringBuffer.writeAll(tags.map((tag) => "#" + tag), " ");
-    return stringBuffer.toString();
-  }
 
-  void onSalonItemTap(SalonItem item) {
+  void onItemTap(StylistItem item) {
     Navigator.push(
       context,
       new MaterialPageRoute(
-        builder: (context) => new SalonDetailPage(
+        builder: (context) =>
+        new StylistDetailPage(
               item: item,
             ),
       ),

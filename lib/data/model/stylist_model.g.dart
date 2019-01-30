@@ -7,11 +7,18 @@ part of 'stylist_model.dart';
 // **************************************************************************
 
 StylistItem _$StylistItemFromJson(Map<String, dynamic> json) {
-  return StylistItem(json['id'] as String, json['name'] as String, json['about'] as String, json['gender_type'] as String ?? 'Unisex', json['tagline'] as String, json['profile_picture'] as String,
+  return StylistItem(
+      json['id'] as String,
+      json['name'] as String,
+      json['about'] as String,
+      json['gender_type'] as String ?? 'Unisex',
+      json['tagline'] as String,
+      json['profile_picture'] as String,
       json['phone'] as String);
 }
 
-Map<String, dynamic> _$StylistItemToJson(StylistItem instance) => <String, dynamic>{
+Map<String, dynamic> _$StylistItemToJson(StylistItem instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'about': instance.about,
