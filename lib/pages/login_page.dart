@@ -8,7 +8,6 @@ import 'package:salon/api_helper.dart';
 import 'package:salon/data/local/SharedPrefsHelper.dart';
 import 'package:salon/data/network/api_endpoint.dart';
 import 'package:salon/network_utils.dart';
-import 'package:salon/pages/home_page.dart';
 import 'package:salon/utils/dialog_utils.dart';
 import 'package:salon/utils/snackbar_utils.dart';
 
@@ -20,7 +19,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  static const platform = const MethodChannel("workflowapp.flutter.io/devicedetail");
+  static const platform =
+  const MethodChannel("workflowapp.flutter.io/devicedetail");
 
   TextEditingController _numberController = new TextEditingController();
   TextEditingController _otpController = new TextEditingController();
@@ -73,8 +73,8 @@ class LoginPageState extends State<LoginPage> {
     assert(number.length == 10);
     Map<String, String> map = new Map();
     map.putIfAbsent("number", () => number);
-    var response = await apiHelper.postWithoutAuth(
-        ApiEndpoint.sendOtp, jsonEncode(map));
+    var response =
+    await apiHelper.postWithoutAuth(ApiEndpoint.sendOtp, jsonEncode(map));
     if (NetworkUtils.isReqSuccess(tag: "sendOtp", response: response)) {
       Navigator.pop(context);
 
@@ -85,7 +85,8 @@ class LoginPageState extends State<LoginPage> {
       });
     } else {
       Navigator.pop(context);
-      SnackbarUtils.show(_scaffoldKey, "Something went wrong. Please try again");
+      SnackbarUtils.show(
+          _scaffoldKey, "Something went wrong. Please try again");
 //_scaffoldKey.currentState.showSnackBar(snackbar)
     }
   }
@@ -113,7 +114,8 @@ class LoginPageState extends State<LoginPage> {
     _map.putIfAbsent("session_id", () => _sessionId);
 
     print(json.encode(_map));
-    http.Response response = await apiHelper.postWithoutAuth(ApiEndpoint.verifyOtp, json.encode(_map));
+    http.Response response = await apiHelper.postWithoutAuth(
+        ApiEndpoint.verifyOtp, json.encode(_map));
     if (NetworkUtils.isReqSuccess(
       tag: "verifyOtp",
       response: response,
@@ -199,13 +201,16 @@ class LoginPageState extends State<LoginPage> {
           textColor: Colors.white.withOpacity(0.9),
           onPressed: _registerButtonEnabled ? onRegisterButtonClick : null,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
+            padding:
+            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Icon(
                   Icons.power_settings_new,
-                  color: _registerButtonEnabled ? Colors.white.withOpacity(0.9) : Colors.grey[700],
+                  color: _registerButtonEnabled
+                      ? Colors.white.withOpacity(0.9)
+                      : Colors.grey[700],
                   size: 20.0,
                 ),
                 SizedBox(
@@ -213,7 +218,8 @@ class LoginPageState extends State<LoginPage> {
                 ),
                 Text(
                   "Register",
-                  style: new TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700),
+                  style: new TextStyle(
+                      fontSize: 16.0, fontWeight: FontWeight.w700),
                 ),
               ],
             ),
@@ -283,7 +289,8 @@ class LoginPageState extends State<LoginPage> {
           textColor: Colors.white.withOpacity(0.9),
           onPressed: _otpButtonEnabled ? onOtpButtonClick : null,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
+            padding:
+            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
             child: Text(
               "Submit",
               style: new TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700),

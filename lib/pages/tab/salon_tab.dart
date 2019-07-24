@@ -36,8 +36,8 @@ class SalonTabState extends State<SalonTab> {
     return Provider<SalonBloc>(
       bloc: _bloc,
       child: StreamBuilder(
-        builder: (BuildContext context,
-            AsyncSnapshot<List<SalonItem>> snapshot) {
+        builder:
+            (BuildContext context, AsyncSnapshot<List<SalonItem>> snapshot) {
           if (snapshot.hasData) {
             return CustomScrollView(slivers: <Widget>[
               new SliverPadding(
@@ -93,7 +93,8 @@ class SalonTabState extends State<SalonTab> {
                                   Expanded(
                                     child: TextField(
                                       decoration: InputDecoration(
-                                        hintText: "Search any Salon, Service or Expert",
+                                        hintText:
+                                        "Search any Salon, Service or Expert",
                                         border: InputBorder.none,
                                       ),
                                       style: TextStyle(fontSize: 13.5),
@@ -107,7 +108,8 @@ class SalonTabState extends State<SalonTab> {
                               top: 32.0,
                               child: Text(
                                 "DOT",
-                                style: TextStyle(fontWeight: FontWeight.w900,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900,
                                     color: Colors.white,
                                     fontSize: 24.0,
                                     letterSpacing: 1.2),
@@ -134,19 +136,23 @@ class SalonTabState extends State<SalonTab> {
                           ),
                           CityWidget(
                             "Delhi",
-                            imageUrl: "https://d53pfl4a028j5.cloudfront.net/uploads/city_image/New%20Delhi%20cropped.jpg",
+                            imageUrl:
+                            "https://d53pfl4a028j5.cloudfront.net/uploads/city_image/New%20Delhi%20cropped.jpg",
                           ),
                           CityWidget(
                             "Gurgaon",
-                            imageUrl: "https://d53pfl4a028j5.cloudfront.net/uploads/city_image/rapid-metro-banner.jpg",
+                            imageUrl:
+                            "https://d53pfl4a028j5.cloudfront.net/uploads/city_image/rapid-metro-banner.jpg",
                           ),
                           CityWidget(
                             "Noida",
-                            imageUrl: "https://d53pfl4a028j5.cloudfront.net/uploads/city_image/noida.jpg",
+                            imageUrl:
+                            "https://d53pfl4a028j5.cloudfront.net/uploads/city_image/noida.jpg",
                           ),
                           CityWidget(
                             "Ghaziabad",
-                            imageUrl: "https://d53pfl4a028j5.cloudfront.net/uploads/city_image/gaziabad%203.jpg",
+                            imageUrl:
+                            "https://d53pfl4a028j5.cloudfront.net/uploads/city_image/gaziabad%203.jpg",
                           ),
                         ],
                         scrollDirection: Axis.horizontal,
@@ -158,9 +164,7 @@ class SalonTabState extends State<SalonTab> {
               SliverPadding(padding: EdgeInsets.symmetric(vertical: 5.0)),
               SliverList(
                 delegate: SliverChildListDelegate(
-                  [
-                    CategoryContainer()
-                  ],
+                  [CategoryContainer()],
                 ),
               ),
 
@@ -264,7 +268,8 @@ class SalonTabState extends State<SalonTab> {
                             Expanded(
                               child: Text(
                                 "Popular Around You",
-                                style: TextStyle(fontWeight: FontWeight.w900,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900,
                                     letterSpacing: 1.2,
                                     color: Colors.blueGrey[900],
                                     fontSize: 14.0),
@@ -356,7 +361,8 @@ class SalonTabState extends State<SalonTab> {
                             Expanded(
                               child: Text(
                                 "Hot Deals Around You",
-                                style: TextStyle(fontWeight: FontWeight.w900,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900,
                                     letterSpacing: 1.2,
                                     color: Colors.blueGrey[900],
                                     fontSize: 14.0),
@@ -386,7 +392,8 @@ class SalonTabState extends State<SalonTab> {
                               AsyncSnapshot<List<PromotionItem>> snapshot) {
                             if (snapshot.hasData) {
                               return ListView.builder(
-                                padding: EdgeInsets.only(left: 6.0,
+                                padding: EdgeInsets.only(
+                                    left: 6.0,
                                     right: 6.0,
                                     bottom: 4.0,
                                     top: 4.0),
@@ -427,7 +434,8 @@ class SalonTabState extends State<SalonTab> {
                             Expanded(
                               child: Text(
                                 "Dot Experts",
-                                style: TextStyle(fontWeight: FontWeight.w900,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900,
                                     letterSpacing: 1.2,
                                     color: Colors.blueGrey[900],
                                     fontSize: 14.0),
@@ -455,8 +463,8 @@ class SalonTabState extends State<SalonTab> {
                         .height / 4.0,
                     color: Colors.white,
                     child: StreamBuilder(
-                      builder: (context, AsyncSnapshot<
-                          List<StylistItem>> data) {
+                      builder:
+                          (context, AsyncSnapshot<List<StylistItem>> data) {
                         if (data.hasData) {
                           return ListView.builder(
                             padding: EdgeInsets.only(
@@ -503,7 +511,8 @@ class SalonTabState extends State<SalonTab> {
                             Expanded(
                               child: Text(
                                 "Dot Book",
-                                style: TextStyle(fontWeight: FontWeight.w900,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900,
                                     letterSpacing: 1.2,
                                     color: Colors.blueGrey[900],
                                     fontSize: 14.0),
@@ -647,7 +656,11 @@ class GenderWidget extends StatelessWidget {
       ),
       child: Text(
         genderType.replaceAll(r'-d', "").toUpperCase(),
-        style: TextStyle(color: Colors.white.withOpacity(1.0), letterSpacing: 1.0, fontSize: 9.0, fontWeight: FontWeight.w500),
+        style: TextStyle(
+            color: Colors.white.withOpacity(1.0),
+            letterSpacing: 1.0,
+            fontSize: 9.0,
+            fontWeight: FontWeight.w500),
       ),
     );
   }

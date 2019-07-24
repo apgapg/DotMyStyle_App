@@ -13,7 +13,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TabController _tabController;
 
-  final List<String> _bottomBarItemList = [ /*"Feeds",*/ "Explore", "Products", "Inspiration"];
+  final List<String> _bottomBarItemList = [
+    /*"Feeds",*/ "Explore",
+    "Products",
+    "Inspiration"
+  ];
   final List<IconData> _bottomBarItemIconList = [
     // Icons.rss_feed,
     Icons.search,
@@ -90,6 +94,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void onProfilePress() {
-    Navigator.push(context, new MaterialPageRoute(builder: (context) => new ProfilePage(),));
+    Navigator.push(
+        context,
+        new MaterialPageRoute(
+          builder: (context) => new ProfilePage(),
+        ));
   }
 }

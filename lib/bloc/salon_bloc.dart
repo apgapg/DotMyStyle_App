@@ -43,8 +43,12 @@ class SalonBloc extends BaseBloc {
 
   void initSalonData() async {
     try {
-      var response = await apiHelper.getWithAuth(endpoint: ApiEndpoint.salon + "?location=" + prefsHelper.selectedAreaId.toString());
-      if (NetworkUtils.isReqSuccess(tag: ApiEndpoint.salon, response: response)) {
+      var response = await apiHelper.getWithAuth(
+          endpoint: ApiEndpoint.salon +
+              "?location=" +
+              prefsHelper.selectedAreaId.toString());
+      if (NetworkUtils.isReqSuccess(
+          tag: ApiEndpoint.salon, response: response)) {
         print(response.body);
 
         var model = SalonModel.fromJson(json.decode(response.body));
@@ -66,8 +70,10 @@ class SalonBloc extends BaseBloc {
 
   void initPromotionData() async {
     try {
-      var response = await apiHelper.getWithAuth(endpoint: ApiEndpoint.promotion);
-      if (NetworkUtils.isReqSuccess(tag: ApiEndpoint.promotion, response: response)) {
+      var response =
+      await apiHelper.getWithAuth(endpoint: ApiEndpoint.promotion);
+      if (NetworkUtils.isReqSuccess(
+          tag: ApiEndpoint.promotion, response: response)) {
         print(response.body);
 
         var model = PromotionModel.fromJson(json.decode(response.body));
@@ -81,9 +87,11 @@ class SalonBloc extends BaseBloc {
   }
 
   void initFeedData() async {
-    NetworkResponse _networkResponse = await apiHelper.getWithAuth1(endpoint: ApiEndpoint.feeds);
+    NetworkResponse _networkResponse =
+    await apiHelper.getWithAuth1(endpoint: ApiEndpoint.feeds);
     if (_networkResponse.isSuccess) {
-      FeedModel feedModel = FeedModel.fromJson(json.decode(_networkResponse.response.body));
+      FeedModel feedModel =
+      FeedModel.fromJson(json.decode(_networkResponse.response.body));
       feedController.add(feedModel.feedList);
     } else {
       print("Some error");
@@ -91,9 +99,11 @@ class SalonBloc extends BaseBloc {
   }
 
   void initStylistData() async {
-    NetworkResponse _networkResponse = await apiHelper.getWithAuth1(endpoint: ApiEndpoint.experts);
+    NetworkResponse _networkResponse =
+    await apiHelper.getWithAuth1(endpoint: ApiEndpoint.experts);
     if (_networkResponse.isSuccess) {
-      StylistModel _model = StylistModel.fromJson(json.decode(_networkResponse.response.body));
+      StylistModel _model =
+      StylistModel.fromJson(json.decode(_networkResponse.response.body));
       stylistController.add(_model.stylistList);
     } else {
       print("Some error");
@@ -101,11 +111,11 @@ class SalonBloc extends BaseBloc {
   }
 
   void initCategoryData() async {
-    NetworkResponse _networkResponse = await apiHelper.getWithAuth1(
-        endpoint: ApiEndpoint.categoryList);
+    NetworkResponse _networkResponse =
+    await apiHelper.getWithAuth1(endpoint: ApiEndpoint.categoryList);
     if (_networkResponse.isSuccess) {
-      CategoryModel _model = CategoryModel.fromJson(
-          json.decode(_networkResponse.response.body));
+      CategoryModel _model =
+      CategoryModel.fromJson(json.decode(_networkResponse.response.body));
       categoryController.add(_model.categoryList);
     } else {
       print("Some error");

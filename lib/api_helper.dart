@@ -32,7 +32,8 @@ class ApiHelper {
   }
 
   Future<NetworkResponse> getWithAuth1({String endpoint}) async {
-    var _raw = await http.get(baseUrl + endpoint, headers: getAuthTokenHeader());
+    var _raw =
+    await http.get(baseUrl + endpoint, headers: getAuthTokenHeader());
     return parseResponse(_raw);
   }
 
@@ -49,9 +50,7 @@ class ApiHelper {
     return NetworkResponse(response);
   }
 
-  void getLocationData() {
-
-  }
+  void getLocationData() {}
 }
 
 class NetworkResponse {
