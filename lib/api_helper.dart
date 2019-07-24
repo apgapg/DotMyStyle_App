@@ -6,7 +6,8 @@ import 'package:salon/data/local/SharedPrefsHelper.dart';
 ApiHelper apiHelper = new ApiHelper();
 
 class ApiHelper {
-  static const baseUrl = "https://dotmystyle.com/api/v1/";
+  // static const baseUrl = "https://dotmystyle.com/api/v1/";
+  static const baseUrl = "https://dotmystyle.herokuapp.com/api/v1/";
 
   static final ApiHelper _instance = new ApiHelper._internal();
 
@@ -37,7 +38,7 @@ class ApiHelper {
 
   Map<String, String> getAuthTokenHeader() {
     Map<String, String> _map = new Map();
-    _map.putIfAbsent("Authorization", () => prefsHelper.token);
+    _map.putIfAbsent("Authorization", () => "Bearer " + prefsHelper.token);
     return _map;
   }
 

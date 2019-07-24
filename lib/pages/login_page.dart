@@ -8,7 +8,7 @@ import 'package:salon/api_helper.dart';
 import 'package:salon/data/local/SharedPrefsHelper.dart';
 import 'package:salon/data/network/api_endpoint.dart';
 import 'package:salon/network_utils.dart';
-import 'package:salon/pages/area_page.dart';
+import 'package:salon/pages/home_page.dart';
 import 'package:salon/utils/dialog_utils.dart';
 import 'package:salon/utils/snackbar_utils.dart';
 
@@ -71,7 +71,10 @@ class LoginPageState extends State<LoginPage> {
 
     var number = _numberController.text;
     assert(number.length == 10);
-    var response = await apiHelper.getWithoutAuth(ApiEndpoint.sendOtp + number);
+    Map<String, String> map = new Map();
+    map.putIfAbsent("number", () => number);
+    var response = await apiHelper.postWithoutAuth(
+        ApiEndpoint.sendOtp, jsonEncode(map));
     if (NetworkUtils.isReqSuccess(tag: "sendOtp", response: response)) {
       Navigator.pop(context);
 
@@ -116,7 +119,7 @@ class LoginPageState extends State<LoginPage> {
       response: response,
     )) {
       print(response.headers);
-      String token = response.headers['authorization'];
+      String token = jsonDecode(response.body)["token"];
       assert(token != null && token.isNotEmpty);
       prefsHelper.isLogin = true;
       prefsHelper.token = token;
@@ -129,7 +132,9 @@ class LoginPageState extends State<LoginPage> {
       await Future.delayed(
         Duration(milliseconds: 700),
       );
-      Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => new AreaPage()));
+      // Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => new AreaPage()));
+      Navigator.pushReplacement(
+          context, new MaterialPageRoute(builder: (context) => new HomePage()));
     } else {
       Navigator.pop(context);
 

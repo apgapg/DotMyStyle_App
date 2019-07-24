@@ -4,6 +4,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:salon/api_helper.dart';
 import 'package:salon/bloc/base_bloc.dart';
 import 'package:salon/data/local/SharedPrefsHelper.dart';
+import 'package:salon/data/model/category_model.dart';
 import 'package:salon/data/model/promotion_model.dart';
 import 'package:salon/data/model/salon_model.dart';
 import 'package:salon/data/model/stylist_model.dart';
@@ -18,6 +19,7 @@ class SalonBloc extends BaseBloc {
   BehaviorSubject<List<PromotionItem>> promotionList;
   BehaviorSubject<List<FeedItem>> feedController;
   BehaviorSubject<List<StylistItem>> stylistController;
+  BehaviorSubject<List<CategoryItem>> categoryController;
 
   factory SalonBloc() {
     if (_instance == null) return _instance = SalonBloc._internal();
@@ -30,11 +32,13 @@ class SalonBloc extends BaseBloc {
     promotionList = new BehaviorSubject();
     feedController = new BehaviorSubject();
     stylistController = new BehaviorSubject();
+    categoryController = new BehaviorSubject();
 
     initPromotionData();
     initSalonData();
     initFeedData();
     initStylistData();
+    initCategoryData();
   }
 
   void initSalonData() async {
@@ -44,14 +48,14 @@ class SalonBloc extends BaseBloc {
         print(response.body);
 
         var model = SalonModel.fromJson(json.decode(response.body));
-        String group = model.salonList
+        /*   String group = model.salonList
             .elementAt(0)
             .group;
         List<SalonItem> popular = model.salonList.where((item) => item.group == group).toList();
         List<SalonItem> extras = model.salonList.where((item) => item.group != group).toList();
-
-        salonPopularList.add(popular);
-        salonExtraList.add(extras);
+*/
+        salonPopularList.add(model.salonList);
+        // salonExtraList.add(extras);
       } else {
         print("Some error");
       }
@@ -96,6 +100,18 @@ class SalonBloc extends BaseBloc {
     }
   }
 
+  void initCategoryData() async {
+    NetworkResponse _networkResponse = await apiHelper.getWithAuth1(
+        endpoint: ApiEndpoint.categoryList);
+    if (_networkResponse.isSuccess) {
+      CategoryModel _model = CategoryModel.fromJson(
+          json.decode(_networkResponse.response.body));
+      categoryController.add(_model.categoryList);
+    } else {
+      print("Some error");
+    }
+  }
+
   @override
   void dispose() {
     salonPopularList.close();
@@ -103,5 +119,6 @@ class SalonBloc extends BaseBloc {
     promotionList.close();
     feedController.close();
     stylistController.close();
+    categoryController.close();
   }
 }

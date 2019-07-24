@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salon/data/local/SharedPrefsHelper.dart';
 import 'package:salon/pages/product_page.dart';
 import 'package:salon/pages/profile_page.dart';
 import 'package:salon/pages/tab/inspiration_tab.dart';
@@ -31,6 +32,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    print("Token: " + prefsHelper.token);
   }
 
   @override
