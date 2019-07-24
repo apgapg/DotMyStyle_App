@@ -9,6 +9,10 @@ The idea of DotMyStyle was to connect unique salons, spa, barbers, beautician of
 
 The backend was built on JAVA Spring framework, simultaneously another backend was being build on NodeJS Express. Both the backend had same database MongoDB hosted on mLab.
 
+JAVA code was hosted on AWS while NodeJS code was hosted on Heroku.
+
+NodeJS backend code can be found here: [DotMyStyle_backend](https://github.com/apgapg/DotMyStyle_backend)
+
 Revenue Model can be find here: [revenue model.pptx](https://github.com/apgapg/DotMyStyle_App/blob/master/src/revenue%20model.pptx)
 ## Sample Screenshots:
 
