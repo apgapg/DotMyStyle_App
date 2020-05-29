@@ -1,4 +1,7 @@
-ends StatefulWidget {
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+
+class CategoryWidget extends StatefulWidget {
   final String text;
   final String imageUrl;
 
@@ -30,7 +33,7 @@ class CategoryWidgetState extends State<CategoryWidget>
                   height: 56.0,
                   width: 56.0,
                   fit: BoxFit.cover,
-                  placeholder: Container(
+                  placeholder: (_, __) => Container(
                     height: 56.0,
                     width: 56.0,
                     color: Colors.blueGrey[100],

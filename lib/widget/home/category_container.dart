@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:salon/bloc/provider.dart';
 import 'package:salon/bloc/salon_bloc.dart';
 import 'package:salon/data/model/category_model.dart';
-import 'package:salon/widget/home/category_widget.dart';
+
+import 'category_widget.dart';
 
 class CategoryContainer extends StatelessWidget {
   @override

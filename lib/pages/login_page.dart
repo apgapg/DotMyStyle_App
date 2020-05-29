@@ -11,6 +11,8 @@ import 'package:salon/network_utils.dart';
 import 'package:salon/utils/dialog_utils.dart';
 import 'package:salon/utils/snackbar_utils.dart';
 
+import 'home_page.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -20,7 +22,7 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
   static const platform =
-  const MethodChannel("workflowapp.flutter.io/devicedetail");
+      const MethodChannel("workflowapp.flutter.io/devicedetail");
 
   TextEditingController _numberController = new TextEditingController();
   TextEditingController _otpController = new TextEditingController();
@@ -74,7 +76,7 @@ class LoginPageState extends State<LoginPage> {
     Map<String, String> map = new Map();
     map.putIfAbsent("number", () => number);
     var response =
-    await apiHelper.postWithoutAuth(ApiEndpoint.sendOtp, jsonEncode(map));
+        await apiHelper.postWithoutAuth(ApiEndpoint.sendOtp, jsonEncode(map));
     if (NetworkUtils.isReqSuccess(tag: "sendOtp", response: response)) {
       Navigator.pop(context);
 
@@ -136,7 +138,7 @@ class LoginPageState extends State<LoginPage> {
       );
       // Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => new AreaPage()));
       Navigator.pushReplacement(
-          context, new MaterialPageRoute(builder: (context) => new HomePage()));
+          context, new MaterialPageRoute(builder: (context) => HomePage()));
     } else {
       Navigator.pop(context);
 
@@ -155,9 +157,7 @@ class LoginPageState extends State<LoginPage> {
           controller: _numberController,
           onChanged: (text) {
             var _number = text;
-            if (_number
-                .trim()
-                .length == 10) {
+            if (_number.trim().length == 10) {
               setState(() {
                 _registerButtonEnabled = true;
               });
@@ -202,7 +202,7 @@ class LoginPageState extends State<LoginPage> {
           onPressed: _registerButtonEnabled ? onRegisterButtonClick : null,
           child: Padding(
             padding:
-            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -290,7 +290,7 @@ class LoginPageState extends State<LoginPage> {
           onPressed: _otpButtonEnabled ? onOtpButtonClick : null,
           child: Padding(
             padding:
-            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
             child: Text(
               "Submit",
               style: new TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700),
@@ -311,9 +311,7 @@ class LoginPageState extends State<LoginPage> {
         print("SMS Permission granted");
         platform.invokeMethod('getOtp').then((otp) {
           print(otp.toString());
-          if (otp != null && otp
-              .toString()
-              .isNotEmpty) {
+          if (otp != null && otp.toString().isNotEmpty) {
             _otpController.text = otp.toString();
             onOtpButtonClick();
           }

@@ -14,7 +14,8 @@ class CityWidget extends StatefulWidget {
   }
 }
 
-class CityWidgetState extends State<CityWidget> with SingleTickerProviderStateMixin {
+class CityWidgetState extends State<CityWidget>
+    with SingleTickerProviderStateMixin {
   Animation<double> animation;
   AnimationController controller;
 
@@ -62,7 +63,7 @@ class CityWidgetState extends State<CityWidget> with SingleTickerProviderStateMi
                   height: 56.0,
                   width: 56.0,
                   fit: BoxFit.cover,
-                  placeholder: Container(
+                  placeholder: (_, __) => Container(
                     height: 56.0,
                     width: 56.0,
                     color: Colors.blueGrey[100],
